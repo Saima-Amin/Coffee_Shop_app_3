@@ -1,5 +1,5 @@
 import { StyleSheet } from "react-native";
-import { Colors} from "react-native/Libraries/NewAppScreen";
+import { Colors, Sizes } from "../constants";;
 
 const styles = StyleSheet.create({
     textStyle: {
@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     },
     appBarWrapper: {
         marginHorizontal: 22,
-        marginTop: 10
+        marginTop: Sizes.small
     },
     appBar: {
         flexDirection: "row",
@@ -17,6 +17,7 @@ const styles = StyleSheet.create({
     },
     location: {
         fontFamily: "semibold",
+        fontSize: Sizes.medium,
         color: Colors.gray
     },
     cartCount:{
@@ -32,9 +33,9 @@ const styles = StyleSheet.create({
     },
     cartNumber:{
         fontFamily:'regular',
-        fontWeight: 600,
+        fontWeight: '600',
         fontSize: 10,
-        color: Colors.lightWhite
+        color: Colors.lightwhite
     }
 })
 

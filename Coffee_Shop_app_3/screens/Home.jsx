@@ -1,28 +1,40 @@
-import { StyleSheet, Text, View } from 'react-native'
+import { StyleSheet,ScrollView, Text, View } from 'react-native'
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './home.style';
-import { Ionicons } from '@expo/vector-icons';
+import { Fontisto, Ionicons } from '@expo/vector-icons';
+import {  GestureHandlerRootView,TouchableOpacity } from 'react-native-gesture-handler';
+import { Welcome } from '../components/products';
 
 
 const Home = () => {
-  return (
-    <SafeAreaView>
-        <View style={styles.appBarWrapper}>
-            <View style={styles.appBar}>
-                <Ionicons name='location-outline' size={24}></Ionicons>
+    return (
+        <GestureHandlerRootView>
+            <SafeAreaView>
+                <View style={styles.appBarWrapper}>
+                    <View style={styles.appBar}>
+                        <Ionicons name='location-outline' size={24}></Ionicons>
 
-                <Text style={styles.location}>Chittagong</Text>
+                        <Text style={styles.location}>Chittagong</Text>
 
-                <View slyle={{alignItems: "flex-end"}}>
-                    <View style={styles.cartCount}>
-                        <Text style={styles.cartNumber}> 8 </Text>
+                        <View style={{ alignItems: "flex-end" }}>
+                            <View style={styles.cartCount}>
+                                <Text style={styles.cartNumber}> 8 </Text>
+                            </View>
+                            <TouchableOpacity onPress={() => console.log("Button pressed")}>
+                                <Fontisto name='shopping-bag' size={24}></Fontisto>
+                            </TouchableOpacity>
+                        </View>
                     </View>
                 </View>
-            </View>
-        </View>
-    </SafeAreaView>
-  )
+
+
+                <ScrollView>
+                    <Welcome></Welcome>
+                </ScrollView>
+            </SafeAreaView>
+        </GestureHandlerRootView>
+    )
 }
 
 export default Home
