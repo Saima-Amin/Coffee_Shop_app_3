@@ -8,7 +8,7 @@ const styles = StyleSheet.create({
     welcomeTxt: (color, top) => (
         {
             fontFamily:"bold",
-            fontSize: Sizes.xxLarge -5,
+            fontSize: Sizes.XLarge -5,
             marginTop: top,
             color: color,
             marginHorizontal: Sizes.small
