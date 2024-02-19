@@ -5,6 +5,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import {useFonts} from 'expo-font';
 import * as SplashScreen from "expo-splash-screen"
 import { useCallback } from 'react';
+import BottomtabNavigation from './navigation/BottomtabNavigation';
 
 
 const Stack = createNativeStackNavigator();

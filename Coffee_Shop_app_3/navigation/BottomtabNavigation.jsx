@@ -42,8 +42,7 @@ const BottomtabNavigation = () => {
                 component={Search}
                 options={{
                     tabBarIcon: ({ focused }) => {
-                        return
-                        <Ionicons
+                        return <Ionicons
                             name={"search-sharp"}
                             size={24}
                             color={focused ? Colors.primary : Colors.gray2}>
