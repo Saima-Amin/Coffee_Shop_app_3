@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
     },
     headerTitle: {
         fontFamily:"semibold",
-        fontSize: Sizes.XLarge -2,
+        fontSize: Sizes.XLarge -3,
     }
 })
 
