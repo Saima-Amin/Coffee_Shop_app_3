@@ -6,6 +6,7 @@ const styles = StyleSheet.create({
     container: {
         width: 182,
         height: 200,
+        marginStart: 4,
         marginEnd: 18,
         borderRadius: Sizes.medium,
         backgroundColor: Colors.secondary
@@ -24,6 +25,26 @@ const styles = StyleSheet.create({
     },
     details: {
         padding: Sizes.small,
+    },
+    title:{
+        fontFamily: "bold",
+        fontSize: Sizes.medium,
+        marginBottom: 2
+    },
+    supplier: {
+        fontFamily: "regular",
+        fontSize: Sizes.small,
+        color: Colors.gray
+    },
+    price: {
+        fontFamily: "bold",
+        fontSize: Sizes.small,
+        marginBottom: 1
+    },
+    addBtn:{
+        position: "absolute",
+        bottom: Sizes.xSmall,
+        right: Sizes.xSmall
     }
 })
 

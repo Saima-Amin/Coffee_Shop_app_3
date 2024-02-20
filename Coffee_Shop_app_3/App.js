@@ -6,7 +6,7 @@ import {useFonts} from 'expo-font';
 import * as SplashScreen from "expo-splash-screen"
 import { useCallback } from 'react';
 import BottomtabNavigation from './navigation/BottomtabNavigation';
-import { Cart } from './screens';
+import { Cart, ProductDetails , } from './screens';
 
 
 const Stack = createNativeStackNavigator();
@@ -15,6 +15,7 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [fonntsLoaded] = useFonts({
     regular: require("./assets/fonts/OpenSans-Regular.ttf"),
+    medium: require("./assets/fonts/OpenSans-Medium.ttf"),
     light: require("./assets/fonts/OpenSans-Light.ttf"),
     bold: require("./assets/fonts/OpenSans-Bold.ttf"),
     semibold: require("./assets/fonts/OpenSans-SemiBold.ttf"),
@@ -33,6 +34,8 @@ export default function App() {
   return (
    <NavigationContainer>
     <Stack.Navigator>
+
+
       <Stack.Screen 
       name='Bottom Navigation'
       component={BottomtabNavigation}
@@ -45,6 +48,15 @@ export default function App() {
       component={Cart}
       options={{headerShown:false}}>
       </Stack.Screen>
+
+
+      <Stack.Screen 
+      name='ProductDetails'
+      component={ProductDetails}
+      options={{headerShown:false}}>
+      </Stack.Screen>
+
+
     </Stack.Navigator>
    </NavigationContainer>
   );
