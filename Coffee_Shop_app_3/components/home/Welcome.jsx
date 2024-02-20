@@ -18,7 +18,7 @@ const Welcome = () => {
                 </Text>
                 <Text style={styles.welcomeTxt(Colors.primary, 0)}>
                     {" "}
-                    Luxurious Coffee Beans
+                    Authentic Coffee Beans
                 </Text>
             </View>
 

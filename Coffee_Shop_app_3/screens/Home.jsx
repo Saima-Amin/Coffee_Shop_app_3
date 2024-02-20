@@ -5,6 +5,9 @@ import styles from './home.style';
 import { Fontisto, Ionicons } from '@expo/vector-icons';
 import {  GestureHandlerRootView,TouchableOpacity } from 'react-native-gesture-handler';
 import { Welcome } from '../components/products';
+import Carousel from '../components/home/Carousel';
+import Heading from '../components/home/Heading';
+import ProductRow from '../components/products/ProductRow';
 
 
 const Home = () => {
@@ -31,11 +34,14 @@ const Home = () => {
 
                 <ScrollView>
                     <Welcome></Welcome>
+                    <Carousel></Carousel>
+                    <Heading></Heading>
+                    <ProductRow></ProductRow>
                 </ScrollView>
             </SafeAreaView>
         </GestureHandlerRootView>
     )
 }
 
-export default Home
+export default Home;
 
