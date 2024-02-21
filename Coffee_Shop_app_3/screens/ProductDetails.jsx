@@ -3,11 +3,14 @@ import React, { useState } from 'react';
 import { Fontisto, Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons';
 import styles from './productDetails.style';
 import { Colors, Sizes } from '../constants';
+import { useRoute } from '@react-navigation/native';
 
 
 
 
 const ProductDetails = ({ navigation }) => {
+    const route = useRoute();
+    const {item} = route.params;
     const [count, setCount] = useState(1)
 
 
@@ -42,15 +45,15 @@ const ProductDetails = ({ navigation }) => {
             </View>
 
             <Image
-                source={{ uri: "https://i.ibb.co/MPTfY84/Adobe-Stock-194828703-Preview.jpg" }}
+                source={{ uri: item.imageUrl }}
                 style={styles.image}
             ></Image>
 
             <View style={styles.details}>
                 <View style={styles.titleRow}>
-                    <Text style={styles.title}>Cappochino</Text>
+                    <Text style={styles.title}>{item.title}</Text>
                     <View style={styles.priceWrapper}>
-                        <Text style={styles.price}>$1234</Text>
+                        <Text style={styles.price}>${item.price}</Text>
                     </View>
                 </View>
 
@@ -90,14 +93,14 @@ const ProductDetails = ({ navigation }) => {
                 {/* Descriptipn section */}
                 <View style={styles.descriptionWrapper}>
                     <Text style={styles.description}>Description</Text>
-                    <Text style={styles.desText}>Lorem ipsum dolor sit amet consectetur adipisicing elit. Animi laboriosam esse velit quisquam suscipit voluptas nemo fuga iure placeat eos.</Text>
+                    <Text style={styles.desText}>{item.description}</Text>
                 </View>
 
                 <View style={{ marginBottom: Sizes.small, marginHorizontal: Sizes.small }}>
                     <View style={styles.location}>
                         <View style={{ flexDirection: 'row', alignItems: "center" }}>
                             <Ionicons name='location-outline' size={20}></Ionicons>
-                            <Text> Chawkbazar.</Text>
+                            <Text> {item.productLocation}</Text>
                         </View>
 
                         <View style={{ flexDirection: 'row', alignItems: "center" }}>

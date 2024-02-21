@@ -1,15 +1,17 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+// import { createStackNavigator } from '@react-navigation/stack';
 import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View } from 'react-native';
 import {useFonts} from 'expo-font';
 import * as SplashScreen from "expo-splash-screen"
 import { useCallback } from 'react';
 import BottomtabNavigation from './navigation/BottomtabNavigation';
-import { Cart, ProductDetails , } from './screens';
+import { Cart, NewRivals, ProductDetails , } from './screens';
 
 
 const Stack = createNativeStackNavigator();
+// const Stack = createStackNavigator();
 
 
 export default function App() {
@@ -53,6 +55,13 @@ export default function App() {
       <Stack.Screen 
       name='ProductDetails'
       component={ProductDetails}
+      options={{headerShown:false}}>
+      </Stack.Screen>
+
+
+      <Stack.Screen 
+      name='ProductsList'
+      component={NewRivals}
       options={{headerShown:false}}>
       </Stack.Screen>
 

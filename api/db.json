@@ -1,0 +1,185 @@
+{
+  "products": [
+    {
+      "id": "0",
+      "title": "Ethiopian Yirgacheffe",
+      "supplier": "Coffee Co.",
+      "price": 12.99,
+      "imageUrl": "https://example.com/coffee1.jpg",
+      "description": "A light roast with floral notes and a hint of citrus. Sourced from the highlands of Ethiopia.",
+      "productLocation": "Aisle 1, Shelf 3"
+    },
+    {
+      "id": "1",
+      "title": "Colombian Supremo",
+      "supplier": "Global Beans",
+      "price": 14.99,
+      "imageUrl": "https://example.com/coffee2.jpg",
+      "description": "Medium-dark roast with a rich, full-bodied flavor. Grown in the mountainous regions of Colombia.",
+      "productLocation": "Aisle 2, Shelf 2"
+    },
+    {
+      "id": "2",
+      "title": "Sumatra Mandheling",
+      "supplier": "Java Joy",
+      "price": 16.49,
+      "imageUrl": "https://example.com/coffee3.jpg",
+      "description": "Bold and earthy, this dark roast hails from the lush landscapes of Sumatra.",
+      "productLocation": "Aisle 1, Shelf 5"
+    },
+    {
+      "id": "3",
+      "title": "Brazilian Santos",
+      "supplier": "South Beans",
+      "price": 10.99,
+      "imageUrl": "https://example.com/coffee4.jpg",
+      "description": "Smooth and nutty with a medium roast. Sourced from the coffee plantations of Brazil.",
+      "productLocation": "Aisle 3, Shelf 1"
+    },
+    {
+      "id": "4",
+      "title": "Kenyan AA",
+      "supplier": "Safari Coffee",
+      "price": 18.99,
+      "imageUrl": "https://example.com/coffee5.jpg",
+      "description": "High-quality beans with a bright acidity and fruity undertones. Straight from the highlands of Kenya.",
+      "productLocation": "Aisle 2, Shelf 4"
+    },
+    {
+      "id": "5",
+      "title": "Guatemalan Antigua",
+      "supplier": "Central Brews",
+      "price": 15.75,
+      "imageUrl": "https://example.com/coffee6.jpg",
+      "description": "Medium roast with chocolatey notes. Grown in the volcanic soils of Antigua, Guatemala.",
+      "productLocation": "Aisle 3, Shelf 2"
+    },
+    {
+      "id": "6",
+      "title": "Costa Rican Tarrazú",
+      "supplier": "Pura Vida Coffee",
+      "price": 17.49,
+      "imageUrl": "https://example.com/coffee7.jpg",
+      "description": "High-altitude beans with a bright acidity and a hint of citrus. From the Tarrazú region of Costa Rica.",
+      "productLocation": "Aisle 1, Shelf 4"
+    },
+    {
+      "id": "7",
+      "title": "Mexican Chiapas",
+      "supplier": "Sierra Coffee",
+      "price": 13.25,
+      "imageUrl": "https://example.com/coffee8.jpg",
+      "description": "Medium roast with caramel sweetness. Sourced from the Chiapas region of Mexico.",
+      "productLocation": "Aisle 2, Shelf 1"
+    },
+    {
+      "id": "8",
+      "title": "Peruvian Cajamarca",
+      "supplier": "Andean Brew",
+      "price": 16.99,
+      "imageUrl": "https://example.com/coffee9.jpg",
+      "description": "Balanced and smooth, with hints of cocoa. Grown in the lush valleys of Cajamarca, Peru.",
+      "productLocation": "Aisle 3, Shelf 3"
+    },
+    {
+      "id": "9",
+      "title": "Honduran Marcala",
+      "supplier": "Rainforest Roasters",
+      "price": 14.5,
+      "imageUrl": "https://example.com/coffee10.jpg",
+      "description": "Dark roast with a bold flavor profile. Harvested in the Marcala region of Honduras.",
+      "productLocation": "Aisle 1, Shelf 2"
+    },
+    {
+      "id": "10",
+      "title": "Indonesian Java",
+      "supplier": "Island Coffee Co.",
+      "price": 19.99,
+      "imageUrl": "https://example.com/coffee11.jpg",
+      "description": "Full-bodied and spicy with a dark roast. Grown on the volcanic island of Java, Indonesia.",
+      "productLocation": "Aisle 2, Shelf 3"
+    },
+    {
+      "id": "11",
+      "title": "Panama Boquete",
+      "supplier": "Panama Beans",
+      "price": 22.75,
+      "imageUrl": "https://example.com/coffee12.jpg",
+      "description": "Complex and wine-like, with a medium roast. From the Boquete region of Panama.",
+      "productLocation": "Aisle 3, Shelf 4"
+    },
+    {
+      "id": "12",
+      "title": "Tanzanian Peaberry",
+      "supplier": "Serengeti Sips",
+      "price": 21.49,
+      "imageUrl": "https://example.com/coffee13.jpg",
+      "description": "Unique peaberry beans with bright acidity and fruity notes. Sourced from Tanzania.",
+      "productLocation": "Aisle 1, Shelf 1"
+    },
+    {
+      "id": "13",
+      "title": "Vietnamese Robusta",
+      "supplier": "Saigon Coffee",
+      "price": 9.99,
+      "imageUrl": "https://example.com/coffee14.jpg",
+      "description": "Bold and intense with a dark roast. Made from high-quality Robusta beans in Vietnam.",
+      "productLocation": "Aisle 2, Shelf 2"
+    },
+    {
+      "id": "14",
+      "title": "Rwanda Bourbon",
+      "supplier": "Kigali Roasters",
+      "price": 16.25,
+      "imageUrl": "https://example.com/coffee15.jpg",
+      "description": "Smooth and sweet with a medium roast. Sourced from the Bourbon variety in Rwanda.",
+      "productLocation": "Aisle 3, Shelf 1"
+    },
+    {
+      "id": "15",
+      "title": "Nicaraguan Jinotega",
+      "supplier": "Nicaragua Beans",
+      "price": 17.99,
+      "imageUrl": "https://example.com/coffee16.jpg",
+      "description": "Medium-dark roast with a rich, velvety texture. Harvested in the Jinotega region of Nicaragua.",
+      "productLocation": "Aisle 1, Shelf 3"
+    },
+    {
+      "id": "16",
+      "title": "El Salvador Pacamara",
+      "supplier": "Salvadorian Brews",
+      "price": 20.5,
+      "imageUrl": "https://example.com/coffee17.jpg",
+      "description": "Large, unique beans with a fruity and floral flavor profile. Grown in El Salvador's Pacamara region.",
+      "productLocation": "Aisle 2, Shelf 4"
+    },
+    {
+      "id": "17",
+      "title": "Indian Monsooned Malabar",
+      "supplier": "Mumbai Roasters",
+      "price": 18.75,
+      "imageUrl": "https://example.com/coffee18.jpg",
+      "description": "Monsooned for a unique taste, low acidity, and full body. From the Malabar coast of India.",
+      "productLocation": "Aisle 3, Shelf 2"
+    },
+    {
+      "id": "18",
+      "title": "Ecuadorian Loja",
+      "supplier": "Andes Coffee Co.",
+      "price": 15.99,
+      "imageUrl": "https://example.com/coffee19.jpg",
+      "description": "Medium roast with notes of chocolate and a hint of floral. Grown in the Loja region of Ecuador.",
+      "productLocation": "Aisle 1, Shelf 4"
+    },
+    {
+      "id": "19",
+      "title": "Jamaican Blue Mountain",
+      "supplier": "Kingston Roasters",
+      "price": 24.99,
+      "imageUrl": "https://example.com/coffee20.jpg",
+      "description": "Rare and highly sought after, with a mild flavor and vibrant acidity. Straight from the Blue Mountains of Jamaica.",
+      "productLocation": "Aisle 2, Shelf 1"
+    }
+    
+  ]
+}
