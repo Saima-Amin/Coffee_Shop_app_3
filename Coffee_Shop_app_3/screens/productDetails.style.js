@@ -103,7 +103,7 @@ const styles = StyleSheet.create({
 
     title:{
         fontFamily:"bold",
-        fontSize: Sizes.large
+        fontSize: Sizes.medium
     },
     price:{
         padding: 10,

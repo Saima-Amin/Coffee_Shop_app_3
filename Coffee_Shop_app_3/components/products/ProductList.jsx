@@ -13,7 +13,7 @@ const ProductList = () => {
 if(isLoading){
     return (
         <View style={styles.loadingContainer}>
-            <ActivityIndicator size={Sizes.xxLarge} color={Colors.primary}></ActivityIndicator>
+            <ActivityIndicator size={Sizes.large} color={Colors.primary}></ActivityIndicator>
         </View>
     );
 

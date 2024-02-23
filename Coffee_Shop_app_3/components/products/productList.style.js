@@ -11,9 +11,10 @@ const styles = StyleSheet.create({
         alignContent:"center"
     },
     container:{
+        // width: 182,
         alignItems: "center",
-        paddingTop: Sizes.xxLarge,
-        paddingLeft: Sizes.small/2
+        paddingTop: Sizes.xxLarge
+        // paddingLeft: Sizes.small/2
     },
     separator:{
         height: 14
