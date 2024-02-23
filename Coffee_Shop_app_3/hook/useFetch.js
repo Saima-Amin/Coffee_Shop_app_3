@@ -11,17 +11,17 @@ const useFetch = () => {
         setIsLoading(true)
 
         try {
-            const response = await axios.get('http://localhost:3001/products')
+            const response = await axios.get('http://192.168.226.215:3000/api/products')
             setData(response.data)
             setIsLoading(false)
         } catch (error) {
+            console.warn(error)
             setError(error)
         }finally{
-            setIsLoading(false)
+         setError(error);
+         setIsLoading(false);
         }
     }
-
-
 
     useEffect(()=>{
        fetchData();
@@ -31,16 +31,10 @@ const useFetch = () => {
     const refetch = () => {
         setIsLoading(true);
         fetchData();
-    }
+    };
 
 
-
-
-
-
-
-
-  return {data, isLoading, error, refetch}
-}
+  return {data, isLoading, error, refetch};
+};
 
 export default useFetch;

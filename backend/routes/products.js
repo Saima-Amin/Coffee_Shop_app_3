@@ -8,4 +8,4 @@ router.get('/search/:key',productController.searchProduct)
 router.post('/',productController.createProduct)
 
 
-module.exports = router
+module.exports = router;

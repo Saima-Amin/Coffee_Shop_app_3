@@ -12,24 +12,24 @@ import { useNavigation } from '@react-navigation/native';
 
 
 const ProductRow = () => {
-    const {data, isLoading, error} = useFetch();
+    const { data, isLoading, error } = useFetch();
     const navigation = useNavigation();
-    const products = [1, 2, 3, 4];
+    // const products = [1, 2, 3, 4];
 
     return (
         <View style={styles.container}>
             {isLoading ? (
-                <ActivityIndicator size={Sizes.large} color={Colors.primary}></ActivityIndicator>
-            ): error ? (
+                <ActivityIndicator size={Sizes.xxLarge} color={Colors.primary}></ActivityIndicator>
+            ) : error ? (
                 <Text>Something went wrong</Text>
             ) : (
                 <FlatList
-                data={data}
-                keyExtractor={(item) => item.id}
-                renderItem={({ item }) => <ProductCardView item={item} navigation={navigation}></ProductCardView>}
-                horizontal
-                contentContainerStyle={{ columnGap: Sizes.medium }}
-            ></FlatList>
+                    data={data}
+                    keyExtractor={(item) => item.id}
+                    renderItem={({ item }) => <ProductCardView item={item} navigation={navigation}></ProductCardView>}
+                    horizontal
+                    contentContainerStyle={{ columnGap: Sizes.medium }}
+                ></FlatList>
             )}
         </View>
     )
