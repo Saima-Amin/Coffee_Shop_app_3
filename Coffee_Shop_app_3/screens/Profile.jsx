@@ -70,14 +70,14 @@ const Profile = ({ navigation }) => {
 
         <View style={{ width: '100%' }}>
           <Image
-            source={require('../assets/images/2148808573.jpg')}
+            source={require('../assets/images/profilebg.jpg')}
             style={styles.cover}
           ></Image>
         </View>
 
         <View style={styles.profileContainer}>
           <Image
-            source={require('../assets/images/2148808573.jpg')}
+            source={require('../assets/images/profilebg.jpg')}
             style={styles.profile}
           ></Image>
           <Text style={styles.name}>

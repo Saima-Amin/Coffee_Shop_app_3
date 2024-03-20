@@ -1,5 +1,9 @@
-import { ScrollView, Text, View, ScrollView, TouchableOpacity, SafeAreaView } from 'react-native'
-import React, { useState } from 'react'
+import { ScrollView, Text, View, TouchableOpacity, Image } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import React, { useState } from 'react';
+import  BackBtn from '../components/BackBtn';
+import styles from './login.style';
+import { Button } from '../components';
 
 const LoginPage = ({navigation}) => {
     const [loader, setLoader] = useState(false);
@@ -15,9 +19,19 @@ const LoginPage = ({navigation}) => {
 
   return (
     <ScrollView>
-        <SafeAreaView style={{marginHorizontal: 20}}>
+        <SafeAreaView style={{marginHorizontal: 15}}>
             <View>
+                <BackBtn onPress={() => navigation.goBack()}></BackBtn>
+                <Image
+                    source={require('../assets/images/loginbg2.jpg')}
+                    style={styles.cover}
+                />
 
+                <Text style={styles.title}>Coffee Beans</Text>
+
+                
+
+                <Button title={"L O G I N"}onPress={() => {}}></Button>
             </View>
         </SafeAreaView>
     </ScrollView>
@@ -28,5 +42,5 @@ const LoginPage = ({navigation}) => {
 
 
 
-export default LoginPage
+export default LoginPage;
 

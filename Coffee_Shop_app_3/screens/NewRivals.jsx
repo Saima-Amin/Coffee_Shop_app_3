@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Colors } from '../constants';
 import { Ionicons } from '@expo/vector-icons';
 import styles from './newRivals.style';
-import { ProductList } from '../components/products';
+import { ProductList } from '../components';
 
 const NewRivals = ({navigation}) => {
     return (
