@@ -14,7 +14,7 @@ const Carousel = () => {
         <SliderBox images={slides}
         dotColor={Colors.primary}
         inactiveDotColor={Colors.secondary}
-        ImageComponentStyle={{borderRadius: 15, width: '92%',marginTop: 15 }}
+        ImageComponentStyle={{borderRadius: 15, width: '92%',marginTop: 6 }}
         autoplay
         circleLoop
         ></SliderBox>
