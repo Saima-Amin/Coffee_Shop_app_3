@@ -7,7 +7,7 @@ import { Button } from '../components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
-import { Colors } from '../constants';
+import { Colors, Sizes } from '../constants';
 
 
 
@@ -20,9 +20,14 @@ const validationSchema = Yup.object().shape({
     location: Yup.string()
         .min('Provide a valid location')
         .required('Required'),
+    username: Yup.string()
+        .min('Provide a valid username')
+        .required('Required'),
 });
 
-const Signuppage = () => {
+
+
+const Signuppage = ({navigation}) => {
     const [loader, setLoader] = useState(false);
     const [obsecureText, setObsecureText] = useState(false);
 
@@ -53,19 +58,52 @@ const Signuppage = () => {
                     <BackBtn onPress={() => navigation.goBack()}></BackBtn>
                     <Image
                         source={require('../assets/images/loginbg2.jpg')}
-                        style={styles.cover}
+                        style={{
+                            height: Sizes.height/3,
+                            width: '100%',
+                            resizeMode:"cover",
+                            marginBottom: Sizes.xxLarge-15
+                         }}
                     />
 
                     <Text style={styles.title}>Coffee Beans</Text>
 
 
                     <Formik
-                        initialValues={{ email: "", password: "", location: "" }}
+                        initialValues={{ email: "", password: "", location: "", username:"" }}
                         validationSchema={validationSchema}
                         onSubmit={(values) => console.log(values)}
                     >
                         {({ handleChange, handleBlur, touched, handleSubmit, values, errors, isValid, setFieldTouched }) => (
                             <View>
+
+
+                                {/* FOR USERNAME INPUT FIELD */}
+                                <View style={styles.wrapper}>
+                                    <Text style={styles.label}>User Name</Text>
+                                    <View style={styles.inputWrapper(touched.username ? Colors.primary : Colors.offwhite)}>
+                                        <MaterialCommunityIcons
+                                            name='face-man-profile'
+                                            size={20}
+                                            color={Colors.gray}
+                                            style={styles.iconStyle}
+                                        />
+
+                                        <TextInput
+                                            placeholder="Enter username"
+                                            onFocus={() => { setFieldTouched('username') }}
+                                            onBlur={() => { setFieldTouched('username', '') }}
+                                            value={values.username}
+                                            onChangeText={handleChange('username')}
+                                            autoCapitalize="none"
+                                            autoCorrect={false}
+                                            style={{ flex: 1 }}
+                                        />
+                                    </View>
+                                    {touched.username && errors.username && (
+                                        <Text style={styles.errorMessage}>{errors.username}</Text>
+                                    )}
+                                </View>
 
                                 {/* FOR EMAIL INPUT FIELD */}
                                 <View style={styles.wrapper}>

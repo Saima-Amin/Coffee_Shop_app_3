@@ -44,6 +44,10 @@ const LoginPage = ({ navigation }) => {
       }
     
 
+     const login = async (values) => {
+        setLoader(true);
+        console.log(values);
+     } 
 
 
 
@@ -63,7 +67,7 @@ const LoginPage = ({ navigation }) => {
                     <Formik
                         initialValues={{ email: '', password: '' }}
                         validationSchema={validationSchema}
-                        onSubmit={(values) => console.log(values)}
+                        onSubmit={(values) => login(values)}
                     >
                         {({ handleChange, handleBlur, touched, handleSubmit, values, errors, isValid, setFieldTouched }) => (
                             <View>
@@ -133,7 +137,7 @@ const LoginPage = ({ navigation }) => {
 
 
 
-                                <Button title={"L O G I N"} onPress={isValid ? handleSubmit :  isValidForm} isValid={isValid}></Button>
+                                <Button loader={loader} title={"L O G I N"} onPress={isValid ? handleSubmit :  isValidForm} isValid={isValid}></Button>
 
                                 <Text style={styles.registration} onPress={()=> {navigation.navigate('Signup')}}>Register</Text>
                             </View>

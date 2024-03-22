@@ -77,7 +77,7 @@ const Profile = ({ navigation }) => {
 
         <View style={styles.profileContainer}>
           <Image
-            source={require('../assets/images/profilebg.jpg')}
+            source={require('../assets/images/shovapoti.png')}
             style={styles.profile}
           ></Image>
           <Text style={styles.name}>
