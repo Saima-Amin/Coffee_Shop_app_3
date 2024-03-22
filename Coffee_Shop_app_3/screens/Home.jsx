@@ -1,22 +1,26 @@
-import { StyleSheet,ScrollView, Text, View } from 'react-native'
+import { StyleSheet, ScrollView, Text, View } from 'react-native'
 import React from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './home.style';
 import { Fontisto, Ionicons } from '@expo/vector-icons';
-import {  GestureHandlerRootView,TouchableOpacity } from 'react-native-gesture-handler';
+import { GestureHandlerRootView, TouchableOpacity } from 'react-native-gesture-handler';
 import { Welcome } from '../components';
 import Carousel from '../components/home/Carousel';
 import Heading from '../components/home/Heading';
 import ProductRow from '../components/products/ProductRow';
+import { useNavigation } from '@react-navigation/native';
 
 
 const Home = () => {
+    const navigation = useNavigation();
     return (
         <GestureHandlerRootView>
             <SafeAreaView>
                 <View style={styles.appBarWrapper}>
                     <View style={styles.appBar}>
-                        <Ionicons name='location-outline' size={24}></Ionicons>
+                        <TouchableOpacity onPress={() => navigation.navigate("Location")}>
+                            <Ionicons name='location-outline' size={24}></Ionicons>
+                        </TouchableOpacity>
 
                         <Text style={styles.location}>Chittagong</Text>
 
