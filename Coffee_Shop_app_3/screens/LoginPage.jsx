@@ -1,4 +1,4 @@
-import { ScrollView, Text, View, TouchableOpacity, Image, TextInput, Alert} from 'react-native';
+import { ScrollView, Text, View, TouchableOpacity, Image, TextInput, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React, { useState } from 'react';
 import BackBtn from '../components/BackBtn';
@@ -8,6 +8,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors } from '../constants';
+import axios from 'axios';
 
 
 
@@ -29,25 +30,68 @@ const LoginPage = ({ navigation }) => {
 
     const isValidForm = () => {
         Alert.alert(
-          "Invalid Form",
-          "Please Provide all required fields",
-          [
-            {
-              text: "Cancel", onPress: () => {}
-            },
-            {
-              text: "Continue", onPress: () => {}
-            },
-            {defaultIndex: 1}
-          ]
+            "Invalid Form",
+            "Please Provide all required fields",
+            [
+                {
+                    text: "Cancel", onPress: () => { }
+                },
+                {
+                    text: "Continue", onPress: () => { }
+                },
+                { defaultIndex: 1 }
+            ]
         )
-      }
-    
+    }
 
-     const login = async (values) => {
+
+    const login = async (values) => {
         setLoader(true);
         console.log(values);
-     } 
+
+        try {
+            const endpoint = "http://localhost:3001/api/login"
+            const data = values;
+
+            const response = await axios.post(endpoint, data)
+            if (response.status === 200) {
+                setLoader(false)
+                console.log(response.data)
+            } else {
+                Alert.alert(
+                    "Error logging in",
+                    "Please Provide valid credentials",
+                    [
+                        {
+                            text: "Cancel", onPress: () => { }
+                        },
+                        {
+                            text: "Continue", onPress: () => { }
+                        },
+                        { defaultIndex: 1 }
+                    ]
+                )
+            }
+        } catch (error) {
+            Alert.alert(
+                "Error",
+                "oops, find an error.. try again",
+                [
+                    {
+                        text: "Cancel", onPress: () => { }
+                    },
+                    {
+                        text: "Continue", onPress: () => { }
+                    },
+                    { defaultIndex: 1 }
+                ]
+            )
+        }finally{
+            setLoader(false);
+        }
+    }
+
+
 
 
 
@@ -77,21 +121,21 @@ const LoginPage = ({ navigation }) => {
                                     <Text style={styles.label}>Email</Text>
                                     <View style={styles.inputWrapper(touched.email ? Colors.primary : Colors.offwhite)}>
                                         <MaterialCommunityIcons
-                                           name='email-outline'
-                                           size={20}
-                                           color={Colors.gray}
-                                           style={styles.iconStyle}
+                                            name='email-outline'
+                                            size={20}
+                                            color={Colors.gray}
+                                            style={styles.iconStyle}
                                         />
 
                                         <TextInput
-                                           placeholder="Enter Email" 
-                                           onFocus={()=> {setFieldTouched('email')}}
-                                           onBlur={()=>{setFieldTouched('email','')}}
-                                           value={values.email}
-                                           onChangeText={handleChange('email')}
-                                           autoCapitalize="none"
-                                           autoCorrect={false}
-                                           style={{flex: 1}}
+                                            placeholder="Enter Email"
+                                            onFocus={() => { setFieldTouched('email') }}
+                                            onBlur={() => { setFieldTouched('email', '') }}
+                                            value={values.email}
+                                            onChangeText={handleChange('email')}
+                                            autoCapitalize="none"
+                                            autoCorrect={false}
+                                            style={{ flex: 1 }}
                                         />
                                     </View>
                                     {touched.email && errors.email && (
@@ -105,28 +149,28 @@ const LoginPage = ({ navigation }) => {
                                     <Text style={styles.label}>Password</Text>
                                     <View style={styles.inputWrapper(touched.password ? Colors.primary : Colors.offwhite)}>
                                         <MaterialCommunityIcons
-                                           name='lock-outline'
-                                           size={20}
-                                           color={Colors.gray}
-                                           style={styles.iconStyle}
+                                            name='lock-outline'
+                                            size={20}
+                                            color={Colors.gray}
+                                            style={styles.iconStyle}
                                         />
 
                                         <TextInput
-                                           secureTextEntry={obsecureText}
-                                           placeholder="Password" 
-                                           onFocus={()=> {setFieldTouched('password')}}
-                                           onBlur={()=>{setFieldTouched('password','')}}
-                                           value={values.password}
-                                           onChangeText={handleChange('password')}
-                                           autoCapitalize="none"
-                                           autoCorrect={false}
-                                           style={{flex: 1}}
+                                            secureTextEntry={obsecureText}
+                                            placeholder="Password"
+                                            onFocus={() => { setFieldTouched('password') }}
+                                            onBlur={() => { setFieldTouched('password', '') }}
+                                            value={values.password}
+                                            onChangeText={handleChange('password')}
+                                            autoCapitalize="none"
+                                            autoCorrect={false}
+                                            style={{ flex: 1 }}
                                         />
 
-                                        <TouchableOpacity onPress={() => {setObsecureText(!obsecureText)}}>
+                                        <TouchableOpacity onPress={() => { setObsecureText(!obsecureText) }}>
                                             <MaterialCommunityIcons
-                                             name={obsecureText ? "eye-outline" : "eye-off-outline"}
-                                             size={18}
+                                                name={obsecureText ? "eye-outline" : "eye-off-outline"}
+                                                size={18}
                                             />
                                         </TouchableOpacity>
                                     </View>
@@ -137,9 +181,9 @@ const LoginPage = ({ navigation }) => {
 
 
 
-                                <Button loader={loader} title={"L O G I N"} onPress={isValid ? handleSubmit :  isValidForm} isValid={isValid}></Button>
+                                <Button loader={loader} title={"L O G I N"} onPress={isValid ? handleSubmit : isValidForm} isValid={isValid}></Button>
 
-                                <Text style={styles.registration} onPress={()=> {navigation.navigate('Signup')}}>Register</Text>
+                                <Text style={styles.registration} onPress={() => { navigation.navigate('Signup') }}>Register</Text>
                             </View>
                         )}
 
