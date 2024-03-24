@@ -20,6 +20,12 @@ const styles = StyleSheet.create({
         fontSize: Sizes.medium,
         color: Colors.gray
     },
+    videoContainer:{
+        flexDirection:"row",
+        alignItems: "center",
+        justifyContent: "center",
+        marginVertical: 10,
+    },
     cartCount:{
         position:"absolute",
         bottom:16,

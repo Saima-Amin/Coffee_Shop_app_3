@@ -45,10 +45,11 @@ const styles = StyleSheet.create({
         lightwhite: 26
     },
     manuWrapper:{
-        marginTop: Sizes.XLarge,
+        marginTop: Sizes.large,
         width: Sizes.width-Sizes.large,
         backgroundColor: Colors.lightwhite,
-        borderRadius: 12
+        borderRadius: 12,
+        marginBottom: Sizes.medium
     },
     manuItem:(borderBottomWidth) => ({
         borderBottomWidth: borderBottomWidth,

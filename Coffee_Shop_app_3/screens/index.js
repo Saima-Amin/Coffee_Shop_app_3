@@ -9,6 +9,8 @@ import Orders from "./Orders";
 import Favourites from "./Favourites";
 import Signup from "./Signuppage";
 import Location from "./Location";
+import VideoShowing from "./VideoShowing";
+import OpenCamera from "./OpenCamera";
 
 export {
     Home, 
@@ -21,5 +23,7 @@ export {
     Orders, 
     Favourites, 
     Signup,
-    Location
+    Location,
+    VideoShowing,
+    OpenCamera
 }

@@ -11,7 +11,7 @@ const useFetch = () => {
         setIsLoading(true)
 
         try {
-            const response = await axios.get('http://192.168.165.215:3000/api/products')
+            const response = await axios.get('http://192.168.184.215:3001/api/products')
             setData(response.data)
             setIsLoading(false)
         } catch (error) {

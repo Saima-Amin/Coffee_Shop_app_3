@@ -1,17 +1,55 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert } from 'react-native';
-import React, { useState } from 'react';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert,ScrollView } from 'react-native';
+import React, { useEffect, useState } from 'react';
 import styles from './profile.style';
 import { StatusBar } from 'expo-status-bar';
-import { Colors } from '../constants';
-import { AntDesign, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons'
+import { Colors, Sizes } from '../constants';
+import { AntDesign, Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons'
+import AsyncStorage from '@react-native-async-storage/async-storage';
+// import { ScrollView } from 'react-native-gesture-handler';
 
 
 const Profile = ({ navigation }) => {
   const [userData, setUserData] = useState(null)
   const [userLogin, setUserLogin] = useState(false)
 
+  useEffect(() => {
+    checkExistingUser();
+  },[]);
 
-// For Logout Process
+
+  const checkExistingUser = async () => {
+    const id =  await AsyncStorage.getItem('id');
+    const useId = `user${JSON.parse(id)}`;
+
+    try {
+      const currentUser = await AsyncStorage.getItem(useId);
+
+      if(currentUser !== null){
+        const parseData =  JSON.parse(currentUser)
+        setUserData(parseData)
+        setUserLogin(true)
+      }else{
+        navigation.navigate('Login')
+      }
+    } catch (error) {
+      console.log("error retriving the data", error)
+    }
+  }
+
+
+  const userLogOut = async () => {
+    const id =  await AsyncStorage.getItem('id');
+    const useId = `user${JSON.parse(id)}`;
+
+    try {
+      
+    } catch (error) {
+      
+    }
+  }
+
+
+  // For Logout Process
   const logout = () => {
     Alert.alert(
       "Logout",
@@ -23,7 +61,7 @@ const Profile = ({ navigation }) => {
         {
           text: "Continue", onPress: () => console.log("logout pressed")
         },
-        {defaultIndex: 1}
+        { defaultIndex: 1 }
       ]
     )
   }
@@ -40,12 +78,12 @@ const Profile = ({ navigation }) => {
         {
           text: "Continue", onPress: () => console.log("clear cache pressed")
         },
-        {defaultIndex: 1}
+        { defaultIndex: 1 }
       ]
     )
   }
 
-  
+
   // For delete account
   const deleteAccount = () => {
     Alert.alert(
@@ -58,13 +96,13 @@ const Profile = ({ navigation }) => {
         {
           text: "Continue", onPress: () => console.log("delete account pressed")
         },
-        {defaultIndex: 1}
+        { defaultIndex: 1 }
       ]
     )
   }
 
   return (
-    <View style={styles.container}>
+    <ScrollView style={styles.container}>
       <View style={styles.container}>
         <StatusBar backgroundColor={Colors.gray}></StatusBar>
 
@@ -80,6 +118,15 @@ const Profile = ({ navigation }) => {
             source={require('../assets/images/shovapoti.png')}
             style={styles.profile}
           ></Image>
+          <TouchableOpacity onPress={() => navigation.navigate("OpenCamera")}>
+            <Ionicons
+              name='camera'
+              size={Sizes.xxLarge - 8}
+              color={Colors.black}
+              style={{ position: "absolute", top: -40, left: 30 }}
+            ></Ionicons>
+
+          </TouchableOpacity>
           <Text style={styles.name}>
             {userLogin === true ? "Andrew" : "Please login into your account"}
           </Text>
@@ -114,7 +161,7 @@ const Profile = ({ navigation }) => {
               </TouchableOpacity>
 
               {/* orders button */}
-              <TouchableOpacity onPress={() =>  navigation.navigate('Orders')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Orders')}>
                 <View style={styles.manuItem(0.2)}>
                   <MaterialCommunityIcons
                     name="truck-delivery-outline"
@@ -126,7 +173,7 @@ const Profile = ({ navigation }) => {
               </TouchableOpacity>
 
               {/* cart button */}
-              <TouchableOpacity onPress={() =>  navigation.navigate('Cart')}>
+              <TouchableOpacity onPress={() => navigation.navigate('Cart')}>
                 <View style={styles.manuItem(0.2)}>
                   <SimpleLineIcons
                     name="bag"
@@ -141,7 +188,7 @@ const Profile = ({ navigation }) => {
               <TouchableOpacity onPress={() => clearCache()}>
                 <View style={styles.manuItem(0.2)}>
                   <MaterialCommunityIcons
-                    name="caches"
+                    name="delete"
                     color={Colors.primary}
                     size={24}
                   />
@@ -161,7 +208,7 @@ const Profile = ({ navigation }) => {
                 </View>
               </TouchableOpacity>
 
-             {/* logout button */}
+              {/* logout button */}
               <TouchableOpacity onPress={() => logout()}>
                 <View style={styles.manuItem(0.2)}>
                   <AntDesign
@@ -183,7 +230,7 @@ const Profile = ({ navigation }) => {
         </View>
 
       </View>
-    </View>
+    </ScrollView>
   )
 }
 

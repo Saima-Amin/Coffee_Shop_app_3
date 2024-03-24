@@ -1,5 +1,5 @@
 import { StyleSheet, ScrollView, Text, View } from 'react-native'
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './home.style';
 import { Fontisto, Ionicons } from '@expo/vector-icons';
@@ -9,9 +9,38 @@ import Carousel from '../components/home/Carousel';
 import Heading from '../components/home/Heading';
 import ProductRow from '../components/products/ProductRow';
 import { useNavigation } from '@react-navigation/native';
-
+import VideoShowing from "./VideoShowing"
+import { Colors } from '../constants';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
+    const [userData, setUserData] = useState(null)
+  const [userLogin, setUserLogin] = useState(false)
+
+    useEffect(() => {
+        checkExistingUser();
+      },[]);
+    
+    
+      const checkExistingUser = async () => {
+        const id =  await AsyncStorage.getItem('id');
+        const useId = `user${JSON.parse(id)}`;
+    
+        try {
+          const currentUser = await AsyncStorage.getItem(useId);
+    
+          if(currentUser !== null){
+            const parseData =  JSON.parse(currentUser)
+            setUserData(parseData)
+            setUserLogin(true)
+          }
+        } catch (error) {
+          console.log("error retriving the data", error)
+        }
+      }
+
+
+
     const navigation = useNavigation();
     return (
         <GestureHandlerRootView>
@@ -22,7 +51,7 @@ const Home = () => {
                             <Ionicons name='location-outline' size={24}></Ionicons>
                         </TouchableOpacity>
 
-                        <Text style={styles.location}>Chittagong</Text>
+                        <Text style={styles.location}>{userData ? userData.location : "Chittagong"}</Text>
 
                         <View style={{ alignItems: "flex-end" }}>
                             <View style={styles.cartCount}>
@@ -39,6 +68,15 @@ const Home = () => {
                 <ScrollView>
                     <Welcome></Welcome>
                     <Carousel></Carousel>
+
+                    <View style={styles.videoContainer}>
+                        <Text style={{fontFamily:"regular", fontSize: 14}}>Process of Making Coffee Beans. </Text>
+                        <TouchableOpacity onPress={() => navigation.navigate("VideoShowing")}>
+                            <Ionicons name='videocam' size={24} color={Colors.primary}></Ionicons>
+                        </TouchableOpacity>
+                    </View>
+
+
                     <Heading></Heading>
                     <ProductRow></ProductRow>
                 </ScrollView>

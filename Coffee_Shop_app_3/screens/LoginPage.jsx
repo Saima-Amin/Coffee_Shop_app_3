@@ -9,7 +9,36 @@ import * as Yup from 'yup';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors } from '../constants';
 import axios from 'axios';
+import useAxiosPublic from '../hook/useAxiosSecure';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
+// Get network interfaces
+// require module
+import { NetworkInfo } from "react-native-network-info";
+var temp="hi"
+NetworkInfo.getIPV4Address().then(ipv4Address => {
+    console.log(ipv4Address);
+  });
+   
+console.log(temp)
+
+// { import {GoogleAuthProvider, getAuth, signInWithPopup} from 'firebase/auth';
+//  import app from '../firebase/firebase.config';
+//  import { initializeApp } from 'firebase/app';
+//  import {getAuth } from 'firebase/app';
+
+
+// const firebaseConfig = {
+//     apiKey: "AIzaSyDIxpGmcOuqxbwWQ6fHffdcN7jG359c9OE",
+//     authDomain: "coffee-shop-firebase-f1b64.firebaseapp.com",
+//     projectId: "coffee-shop-firebase-f1b64",
+//     storageBucket: "coffee-shop-firebase-f1b64.appspot.com",
+//     messagingSenderId: "567053090727",
+//     appId: "1:567053090727:web:e87b560b605092a95fc082",
+//     measurementId: "G-M8RHM2VXE5"
+//   };
+// }
+  
 
 
 const validationSchema = Yup.object().shape({
@@ -25,6 +54,8 @@ const LoginPage = ({ navigation }) => {
     const [loader, setLoader] = useState(false);
     const [responseData, setResponseData] = useState(null);
     const [obsecureText, setObsecureText] = useState(false);
+
+    const axiosSecure = useAxiosPublic();
 
 
 
@@ -50,13 +81,29 @@ const LoginPage = ({ navigation }) => {
         console.log(values);
 
         try {
-            const endpoint = "http://localhost:3001/api/login"
+            const endpoint = "http:// /api/login"
             const data = values;
+            console.log("data:")
+            console.log(data)
+           
 
             const response = await axios.post(endpoint, data)
+            console.log("here")
+            console.log("response:")
+            console.log(response)
+            
             if (response.status === 200) {
                 setLoader(false)
-                console.log(response.data)
+                // console.log(response.data)
+                setResponseData(response.data)
+                // console.log(`user${responseData._id}`)
+                await AsyncStorage.setItem(`user${responseData._id}`, JSON.stringify(responseData)) 
+                // await AsyncStorage.getItem('')
+                await AsyncStorage.setItem('id', JSON.stringify(responseData._id))
+
+                navigation.replace('Bottom Navigation')
+               
+
             } else {
                 Alert.alert(
                     "Error logging in",
@@ -73,6 +120,7 @@ const LoginPage = ({ navigation }) => {
                 )
             }
         } catch (error) {
+            console.log(error)
             Alert.alert(
                 "Error",
                 "oops, find an error.. try again",
