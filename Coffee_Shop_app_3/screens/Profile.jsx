@@ -6,7 +6,7 @@ import { Colors, Sizes } from '../constants';
 import { AntDesign, Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { ScrollView } from 'react-native-gesture-handler';
-
+import {firebase} from '../firebase/firebase.config';
 
 const Profile = ({ navigation }) => {
   const [userData, setUserData] = useState(null)
@@ -18,22 +18,19 @@ const Profile = ({ navigation }) => {
 
 
   const checkExistingUser = async () => {
-    const id =  await AsyncStorage.getItem('id');
-    const useId = `user${JSON.parse(id)}`;
-
-    try {
-      const currentUser = await AsyncStorage.getItem(useId);
-
-      if(currentUser !== null){
-        const parseData =  JSON.parse(currentUser)
-        setUserData(parseData)
-        setUserLogin(true)
-      }else{
-        navigation.navigate('Login')
-      }
-    } catch (error) {
-      console.log("error retriving the data", error)
-    }
+    console.log("OKk");
+    console.log("Here "+firebase.auth().currentUser.uid);
+    firebase.firestore().collection('users')
+      .doc(firebase.auth().currentUser.uid).get()
+      .then((snapshot) => {
+        if (snapshot.exists) {
+          setUserLogin(true);
+          console.log(snapshot.data());
+          setUserData(snapshot.data());
+        } else {
+          console.log('User does not exist');
+        }
+      });
   }
 
 
@@ -128,7 +125,7 @@ const Profile = ({ navigation }) => {
 
           </TouchableOpacity>
           <Text style={styles.name}>
-            {userLogin === true ? "Andrew" : "Please login into your account"}
+          {userData? userData.username : "No user found"}
           </Text>
           {userLogin === false ? (
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
@@ -138,7 +135,7 @@ const Profile = ({ navigation }) => {
             </TouchableOpacity>
           ) : (
             <View style={styles.loginBtn}>
-              <Text style={styles.menuText}>dfdfbfdhrtbdd.com </Text>
+              <Text style={styles.menuText}>    {userData? userData.email : "No email found"}</Text>
             </View>
           )
           }

@@ -1,6 +1,6 @@
 import { View, Text } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import axios from 'axios';
+import { firebase } from '../firebase/firebase.config'
 
 const useFetch = () => {
     const [data, setData] = useState([]);
@@ -8,23 +8,29 @@ const useFetch = () => {
     const [error, setError] = useState(null);
 
     const fetchData = async () => {
-        setIsLoading(true)
-
         try {
-            const response = await axios.get('http://192.168.184.215:3001/api/products')
-            setData(response.data)
-            setIsLoading(false)
-        } catch (error) {
-            console.warn(error)
-            setError(error)
-        }finally{
-         setError(error);
-         setIsLoading(false);
-        }
-    }
+            const productSnapshot = await firebase.firestore().collection('products').get();
+            // Create an array to store product data
+            const productsData = [];
 
-    useEffect(()=>{
-       fetchData();
+            // Iterate over the documents in the snapshot
+            productSnapshot.forEach(doc => {
+                // Access the data of each document using doc.data()
+                const productData = doc.data();
+
+                // Push the product data to the array
+                productsData.push(productData);
+            });
+
+            // Set the array of product data to the state variable
+            setData(productsData);
+        } catch (error) {
+            console.log('Error fetching products:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchData();
     }, []);
 
 
@@ -34,7 +40,7 @@ const useFetch = () => {
     };
 
 
-  return {data, isLoading, error, refetch};
+    return { data, isLoading, error, refetch };
 };
 
 export default useFetch;

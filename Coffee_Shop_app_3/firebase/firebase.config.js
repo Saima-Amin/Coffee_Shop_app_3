@@ -1,23 +1,31 @@
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/auth';
+import 'firebase/compat/firestore'
+import firestore, { getFirestore } from 'firebase/firestore'
+import { getStorage } from 'firebase/storage';
+import { initializeApp } from 'firebase/app';
 
-// Import the functions you need from the SDKs you need
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "AIzaSyDIxpGmcOuqxbwWQ6fHffdcN7jG359c9OE",
-  authDomain: "coffee-shop-firebase-f1b64.firebaseapp.com",
-  projectId: "coffee-shop-firebase-f1b64",
-  storageBucket: "coffee-shop-firebase-f1b64.appspot.com",
-  messagingSenderId: "567053090727",
-  appId: "1:567053090727:web:e87b560b605092a95fc082",
-  measurementId: "G-M8RHM2VXE5"
+  apiKey: "AIzaSyAtDRJ7ZYMADEGsUMG7hFZ9jcJaU2GsY5E",
+  authDomain: "coffeeshopapp-39dbf.firebaseapp.com",
+  projectId: "coffeeshopapp-39dbf",
+  storageBucket: "coffeeshopapp-39dbf.appspot.com",
+  messagingSenderId: "914328856991",
+  appId: "1:914328856991:web:bbcbade54bfaf5509775aa",
+  measurementId: "G-RP4LDVLEPZ"
 };
 
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
-export default app;
+
+  
+//if(!firebase.apps.length)
+//{
+    //const app = firebase.initializeApp(firebaseConfig);
+//}
+const app = firebase.initializeApp(firebaseConfig);
+const storage = getStorage(app);
+
+export { storage };
+
+export const db=getFirestore(app);
+
+export {firebase}; 

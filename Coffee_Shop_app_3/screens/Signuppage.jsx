@@ -8,6 +8,7 @@ import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
 import { Colors, Sizes } from '../constants';
+import { firebase } from "../firebase/firebase.config";
 
 
 
@@ -49,7 +50,57 @@ const Signuppage = ({navigation}) => {
         )
     }
 
+    registerUser = async (email, password, location,username) => {
+       /* if (username.trim() !== '') {
+          checkUsernameAvailability();
+        }else setIsUsernameAvailable(false);
+        if(isUsernameAvailable===false) {
+          alert('Enter unique user name');
+          return;
+        }  */
+        console.log(email);
+      
+        await firebase
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then(() => {
+            firebase
+              .auth()
+              .currentUser.sendEmailVerification({
+                handleCodeInApp: true,
+                url: "https://coffeeshopapp-39dbf.firebaseapp.com",
+              })
+              .then(() => {
+                alert("Verification email sent");
+              })
+              .catch((error) => {
+                alert(error.message);
+              })
+              .then(() => {
+                console.log("3");
+                firebase
+                  .firestore()
+                  .collection("users")
+                  .doc(firebase.auth().currentUser.uid)
+                  .set({
+                    username: username,
+                    _id: firebase.auth().currentUser.uid,
+                    email: email,
+                    location:location,
+                  });
+                  console.log("4");
+              })
+              .catch((error) => {
+                alert(error.message);
+              });
+          })
+          .catch((error) => {
+            alert(error.message);
+          });
 
+          navigation.goBack();
+      };
+    
 
     return (
         <ScrollView>
@@ -71,8 +122,9 @@ const Signuppage = ({navigation}) => {
 
                     <Formik
                         initialValues={{ email: "", password: "", location: "", username:"" }}
-                        validationSchema={validationSchema}
-                        onSubmit={(values) => console.log(values)}
+                      //  validationSchema={validationSchema}
+                        onSubmit={(values) => registerUser(values.email,values.password,values.location,values.username)}
+
                     >
                         {({ handleChange, handleBlur, touched, handleSubmit, values, errors, isValid, setFieldTouched }) => (
                             <View>
@@ -197,7 +249,7 @@ const Signuppage = ({navigation}) => {
 
 
 
-                                <Button title={"S I G N U P"} onPress={isValid ? handleSubmit : isValidForm} isValid={isValid}></Button>
+                                <Button title={"S I G N U P"} onPress={handleSubmit} ></Button>
 
                                 {/* <Text style={styles.registration} onPress={()=> {navigation.navigate('')}}>Register</Text> */}
                             </View>

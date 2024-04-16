@@ -9,16 +9,16 @@ import { Colors } from 'react-native/Libraries/NewAppScreen';
 const Tab = createBottomTabNavigator();
 
 const screenOptions = {
-    tabBarShowLebal: false,
-    tabBarHideOnKeyboard: true,
+    tabBarShowLabel: false, // Corrected typo
     headerShown: false,
+    tabBarHideOnKeyboard: true, // Moved outside tabBarStyle
     tabBarStyle: {
         position: "absolute",
         bottom: 0,
         right: 0,
         left: 0,
         elevation: 0,
-        height: 70
+        height: 50
     }
 }
 

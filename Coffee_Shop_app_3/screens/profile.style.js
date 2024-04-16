@@ -41,8 +41,7 @@ const styles = StyleSheet.create({
         color: Colors.gray,
         marginLeft: 20,
         fontWeight: '600',
-        fontSize: 14,
-        lightwhite: 26
+        fontSize: 14
     },
     manuWrapper:{
         marginTop: Sizes.large,
@@ -59,6 +58,5 @@ const styles = StyleSheet.create({
         borderColor: Colors.gray
     })
 })
-
 
 export default styles;

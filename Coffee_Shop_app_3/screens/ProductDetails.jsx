@@ -10,12 +10,12 @@ import { useRoute } from '@react-navigation/native';
 
 const ProductDetails = ({ navigation }) => {
     const route = useRoute();
-    const {item} = route.params;
+    const { item } = route.params;
     const [count, setCount] = useState(1)
 
 
 
-
+    console.log(item.imageUrl);
     const increment = () => {
         setCount(count + 1)
     }
@@ -47,6 +47,7 @@ const ProductDetails = ({ navigation }) => {
             <Image
                 source={{ uri: item.imageUrl }}
                 style={styles.image}
+                onError={() => console.log("Error loading image")}
             ></Image>
 
             <View style={styles.details}>
@@ -112,11 +113,11 @@ const ProductDetails = ({ navigation }) => {
                 </View>
 
                 <View style={styles.cartRow}>
-                    <TouchableOpacity onPress={()=> {}} style={styles.cartBtn}>
+                    <TouchableOpacity onPress={() => { }} style={styles.cartBtn}>
                         <Text style={styles.cartTitle}>BUY NOW</Text>
                     </TouchableOpacity>
 
-                    <TouchableOpacity onPress={()=> {}} style={styles.addcart}>
+                    <TouchableOpacity onPress={() => { }} style={styles.addcart}>
                         <Fontisto name='shopping-bag' size={22} color={Colors.lightwhite}></Fontisto>
                     </TouchableOpacity>
                 </View>
@@ -124,7 +125,7 @@ const ProductDetails = ({ navigation }) => {
 
 
             </View>
-         </View>
+        </View>
     )
 }
 
