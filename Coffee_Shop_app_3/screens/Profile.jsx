@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View, Image, TouchableOpacity, Alert,ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, Alert, ScrollView } from 'react-native';
 import React, { useEffect, useState } from 'react';
 import styles from './profile.style';
 import { StatusBar } from 'expo-status-bar';
@@ -6,20 +6,35 @@ import { Colors, Sizes } from '../constants';
 import { AntDesign, Ionicons, MaterialCommunityIcons, SimpleLineIcons } from '@expo/vector-icons'
 import AsyncStorage from '@react-native-async-storage/async-storage';
 // import { ScrollView } from 'react-native-gesture-handler';
-import {firebase} from '../firebase/firebase.config';
+import * as ImagePicker from 'expo-image-picker';
+// import * as Permissions from 'expo-permissions';
+import { firebase } from '../firebase/firebase.config';
+
+
 
 const Profile = ({ navigation }) => {
   const [userData, setUserData] = useState(null)
   const [userLogin, setUserLogin] = useState(false)
 
+  const [hasGalleryPermission, sethasGalleryPermission] = useState(null);
+  const [image, setImage] = useState(null);
+
+
+
   useEffect(() => {
+    requestGalleryPermission();
     checkExistingUser();
-  },[]);
+  }, []);
+
+  const requestGalleryPermission = async () => {
+    const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+    sethasGalleryPermission(status === 'granted');
+  };
 
 
   const checkExistingUser = async () => {
     console.log("OKk");
-    console.log("Here "+firebase.auth().currentUser.uid);
+    console.log("Here " + firebase.auth().currentUser.uid);
     firebase.firestore().collection('users')
       .doc(firebase.auth().currentUser.uid).get()
       .then((snapshot) => {
@@ -35,13 +50,13 @@ const Profile = ({ navigation }) => {
 
 
   const userLogOut = async () => {
-    const id =  await AsyncStorage.getItem('id');
+    const id = await AsyncStorage.getItem('id');
     const useId = `user${JSON.parse(id)}`;
 
     try {
       await AsyncStorage.multiRemove([useId, 'id']);
       navigation.replace('Login')
-      
+
     } catch (error) {
       console.log("Error Logging Out :", error)
     }
@@ -100,6 +115,30 @@ const Profile = ({ navigation }) => {
     )
   }
 
+
+  // for image picker
+  const pickImage = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.Images,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+
+    if (!result.canceled) {
+      setImage(result.assets[0].uri);
+    }
+  };
+
+  if (hasGalleryPermission === false) {
+    return <Text>No access to Internal Storage</Text>;
+  }
+
+
+
   return (
     <ScrollView style={styles.container}>
       <View style={styles.container}>
@@ -113,11 +152,12 @@ const Profile = ({ navigation }) => {
         </View>
 
         <View style={styles.profileContainer}>
-          <Image
-            source={require('../assets/images/shovapoti.png')}
-            style={styles.profile}
-          ></Image>
-          <TouchableOpacity onPress={() => navigation.navigate("OpenCamera")}>
+          <TouchableOpacity onPress={pickImage}>
+            {image ? <Image source={{ uri: image }} style={styles.profile} /> : <Image source={require('../assets/images/shovapoti.png')} style={styles.profile} />}
+          </TouchableOpacity>
+
+
+          <TouchableOpacity>
             <Ionicons
               name='camera'
               size={Sizes.xxLarge - 8}
@@ -125,19 +165,22 @@ const Profile = ({ navigation }) => {
               style={{ position: "absolute", top: -40, left: 30 }}
             ></Ionicons>
 
+            {/* {image && <Image source={{ uri: image }} style={styles.image} />} */}
           </TouchableOpacity>
+
+
           <Text style={styles.name}>
-          {userData? userData.username : "No user found"}
+            {userData ? userData.username : "No user found"}
           </Text>
           {userLogin === false ? (
             <TouchableOpacity onPress={() => navigation.navigate('Login')}>
               <View style={styles.loginBtn}>
-                <Text style={styles.menuText}>L O G I N  </Text>
+                <Text style={styles.menuText}> L O G I N </Text>
               </View>
             </TouchableOpacity>
           ) : (
             <View style={styles.loginBtn}>
-              <Text style={styles.menuText}>    {userData? userData.email : "No email found"}</Text>
+              <Text style={styles.menuText}>{userData ? userData.email : "No email found"} </Text>
             </View>
           )
           }
@@ -213,9 +256,9 @@ const Profile = ({ navigation }) => {
                   <AntDesign
                     name="logout"
                     color={Colors.primary}
-                    size={24}
+                    size={22}
                   />
-                  <Text style={styles.menuText}>Logout</Text>
+                  <Text style={styles.menuText}> Logout</Text>
                 </View>
               </TouchableOpacity>
 

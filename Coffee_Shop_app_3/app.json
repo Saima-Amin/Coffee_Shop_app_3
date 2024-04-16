@@ -3,6 +3,7 @@
     "name": "Coffee_Shop_app_3",
     "slug": "Coffee_Shop_app_3",
     "version": "1.0.0",
+    "permissions": ["CAMERA_ROLL"],
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -29,6 +30,12 @@
     },
     "plugins": [
       "expo-font"
-    ]
+    ],
+     
+      "expo-image-picker":
+        {
+          "photosPermission": "The app accesses your photos to let you share them with your friends."
+        }
+      
   }
 }
