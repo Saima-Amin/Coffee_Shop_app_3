@@ -39,9 +39,11 @@ const Profile = ({ navigation }) => {
     const useId = `user${JSON.parse(id)}`;
 
     try {
+      await AsyncStorage.multiRemove([useId, 'id']);
+      navigation.replace('Login')
       
     } catch (error) {
-      
+      console.log("Error Logging Out :", error)
     }
   }
 
@@ -56,7 +58,7 @@ const Profile = ({ navigation }) => {
           text: "Cancel", onPress: () => console.log("cancel pressed")
         },
         {
-          text: "Continue", onPress: () => console.log("logout pressed")
+          text: "Continue", onPress: () => userLogOut()
         },
         { defaultIndex: 1 }
       ]
@@ -194,7 +196,7 @@ const Profile = ({ navigation }) => {
               </TouchableOpacity>
 
               {/* delete user button */}
-              <TouchableOpacity onPress={() => deleteAccount()}>
+              {/* <TouchableOpacity onPress={() => deleteAccount()}>
                 <View style={styles.manuItem(0.2)}>
                   <AntDesign
                     name="deleteuser"
@@ -203,7 +205,7 @@ const Profile = ({ navigation }) => {
                   />
                   <Text style={styles.menuText}>Delete Account</Text>
                 </View>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
 
               {/* logout button */}
               <TouchableOpacity onPress={() => logout()}>
