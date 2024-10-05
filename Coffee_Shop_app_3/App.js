@@ -6,7 +6,7 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from "expo-splash-screen";
 import { useCallback, useState, useEffect } from 'react';
 import BottomtabNavigation from './navigation/BottomtabNavigation';
-import { Cart, NewRivals, ProductDetails, LoginPage, Orders, Favourites, Location, VideoShowing, OpenCamera } from './screens';
+import { Cart, NewRivals, ProductDetails, LoginPage, Orders, Favourites, Location, VideoShowing, OpenCamera, Review, Rating } from './screens';
 import Signuppage from './screens/Signuppage';
 import { firebase } from './firebase/firebase.config';
 
@@ -85,37 +85,44 @@ export default function App() {
 
 
         <Stack.Screen 
-      name='Location'
-      component={Location}
-      options={{headerShown:false}}>
-      </Stack.Screen>
+        name='Location'
+        component={Location}
+        options={{headerShown:false}}>
+        </Stack.Screen>
 
 
-      <Stack.Screen 
-      name='VideoShowing'
-      component={VideoShowing}
-      options={{headerShown:false}}>
-      </Stack.Screen>
+        <Stack.Screen 
+        name='VideoShowing'
+        component={VideoShowing}
+        options={{headerShown:false}}>
+        </Stack.Screen>
 
 
-      <Stack.Screen 
-      name='OpenCamera'
-      component={OpenCamera}
-      options={{headerShown:false}}>
-      </Stack.Screen>
+        <Stack.Screen 
+        name='OpenCamera'
+        component={OpenCamera}
+        options={{headerShown:false}}>
+        </Stack.Screen>
 
 
-      <Stack.Screen 
-      name='Favourites'
-      component={Favourites}
-      options={{headerShown:false}}>
-      </Stack.Screen>
+        <Stack.Screen 
+        name='Favourites'
+        component={Favourites}
+        options={{headerShown:false}}>
+        </Stack.Screen>
 
-      <Stack.Screen 
-      name='Review'
-      component={View}
-      options={{headerShown:false}}>
-      </Stack.Screen>
+        <Stack.Screen 
+        name='Review'
+        component={Review}
+        options={{headerShown:false}}>
+        </Stack.Screen>
+
+
+        <Stack.Screen 
+        name='Rating'
+        component={Rating}
+        options={{headerShown:false}}>
+        </Stack.Screen>
 
 
         </Stack.Navigator>
