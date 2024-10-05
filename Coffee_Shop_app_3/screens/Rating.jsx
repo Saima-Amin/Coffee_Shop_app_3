@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { collection, updateDoc, doc, getDocs, query, where, addDoc,  } from 'firebase/firestore';
+import { collection, updateDoc, doc, getDocs, query, where, addDoc, } from 'firebase/firestore';
 import { Colors, Sizes } from '../constants';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
-import {db,app,firebase} from './../firebase/firebase.config'
+import { db, app, firebase } from './../firebase/firebase.config'
 // import { db } from '../firebase'; // Ensure firebase instance is imported correctly
 
 const Rating = ({ navigation }) => {
@@ -15,7 +15,7 @@ const Rating = ({ navigation }) => {
     const [email, setEmail] = useState("");
     const [user, setUser] = useState(); // Mock user data for testing
 
-    
+
 
     useEffect(() => {
 
@@ -56,7 +56,7 @@ const Rating = ({ navigation }) => {
             }
         };
 
-        
+
         fetchUserEmail();
         fetchRatings();
     }, []);
@@ -75,7 +75,7 @@ const Rating = ({ navigation }) => {
     //           console.error('Error checking user rating:', error);
     //         }
     //       };
-    
+
     //       fetchData();
     //     }
     //   }, [user]);
@@ -163,7 +163,7 @@ const Rating = ({ navigation }) => {
     return (
         <SafeAreaView>
             <View style={styles.upperRow}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() =>  navigation && navigation.goBack()}>
                     <Ionicons name='chevron-back-circle' size={30} />
                 </TouchableOpacity>
             </View>
@@ -172,17 +172,18 @@ const Rating = ({ navigation }) => {
                 <Text style={styles.headerText}>Enjoy the app? Rate us!</Text>
                 <Text style={styles.title}>Average Rating: {averageRating.toFixed(1)} out of 5</Text>
 
+
                 {!hasRated && (
                     <TouchableOpacity onPress={() => handleRating(0)}>
                         <Text style={styles.rateText}>You haven't rated yet. Do you want to rate?</Text>
                     </TouchableOpacity>
                 )}
+                <View style={styles.starsContainer}>{renderStars()}</View>
 
                 {userRating !== null && <Text style={styles.userRatingText}>Your Rating: {userRating}</Text>}
 
                 <Text style={styles.ratingCount}>Total Ratings: {ratings.length}</Text>
 
-                <View style={styles.starsContainer}>{renderStars()}</View>
             </View>
         </SafeAreaView>
     );
@@ -195,19 +196,19 @@ const styles = StyleSheet.create({
         backgroundColor: Colors.secondary,
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: 20,
+        marginBottom: 5,
         paddingTop: 10,
-        paddingBottom: 20
+        paddingBottom: 15
     },
     upperRow: {
-        color: Colors.primary,
+        color: '#AB8C56',
         marginHorizontal: 20,
         flexDirection: "row",
         alignItems: "center",
-        position: "absolute",
-        top: Sizes.XLarge,
+        // position: "absolute",
+        top: Sizes.large,
         left: -Sizes.small,
-        width: Sizes.width - 22,
+        width: Sizes.width -22,
         zIndex: 999
     },
     headerText: {
@@ -225,7 +226,7 @@ const styles = StyleSheet.create({
     },
     starsContainer: {
         flexDirection: 'row',
-        marginTop: 10,
+        marginTop: 5,
     },
     ratingCount: {
         fontFamily: "regular",

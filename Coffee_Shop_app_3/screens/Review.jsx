@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import Rating from './Rating';
+import AddReview from './AddReview';
 import { Colors } from '../constants';
 import { firebase } from '../firebase/firebase.config';
 
@@ -51,6 +52,12 @@ const Review = () => {
             ) : (
                 <Text>Loading...</Text>
             )}
+             <Text style={{ fontFamily: "bold", fontSize: 38 ,color: '#3A3D42' }}>See What Our Clients Say!</Text>
+                    {/* <Text style={{ fontFamily: "serif", fontSize: 20, marginBottom: 8,color: '#3A3D42' }}>Want to be more confirmed about our services? Let's see what our customers' say about our services, so that we can assure you more!</Text> */}
+                    {/* this is for adding reviews */}
+                    <View style={{borderBottomWidth: 1,  borderBottomColor: '#AB8C56',borderTopWidth: 1, borderTopColor: '#AB8C56' }}>
+                        <AddReview></AddReview>
+                    </View>
             
         </SafeAreaView>
     );

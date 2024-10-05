@@ -13,6 +13,7 @@ import VideoShowing from "./VideoShowing";
 import OpenCamera from "./OpenCamera";
 import Review from "./Review";
 import Rating from "./Rating";
+import AddReview from "./AddReview";
 
 export {
     Home, 
@@ -29,5 +30,6 @@ export {
     VideoShowing,
     OpenCamera,
     Review,
-    Rating
+    Rating,
+    AddReview
 }
