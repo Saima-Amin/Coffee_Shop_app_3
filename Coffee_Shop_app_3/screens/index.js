@@ -11,6 +11,7 @@ import Signup from "./Signuppage";
 import Location from "./Location";
 import VideoShowing from "./VideoShowing";
 import OpenCamera from "./OpenCamera";
+import Review from "./Review";
 
 export {
     Home, 
@@ -25,5 +26,6 @@ export {
     Signup,
     Location,
     VideoShowing,
-    OpenCamera
+    OpenCamera,
+    Review
 }

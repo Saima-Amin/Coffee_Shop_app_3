@@ -111,6 +111,12 @@ export default function App() {
       options={{headerShown:false}}>
       </Stack.Screen>
 
+      <Stack.Screen 
+      name='Review'
+      component={View}
+      options={{headerShown:false}}>
+      </Stack.Screen>
+
 
         </Stack.Navigator>
       </NavigationContainer>

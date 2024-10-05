@@ -1,7 +1,7 @@
 import { View, Text } from 'react-native'
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Home, Search, Profile} from "../screens"
+import {Home, Search, Profile, Review} from "../screens"
 import { Ionicons } from "@expo/vector-icons"
 import { Colors } from 'react-native/Libraries/NewAppScreen';
 
@@ -44,6 +44,19 @@ const BottomtabNavigation = () => {
                     tabBarIcon: ({ focused }) => {
                         return <Ionicons
                             name={"search-sharp"}
+                            size={24}
+                            color={focused ? Colors.primary : Colors.gray2}>
+                        </Ionicons>
+                    }
+                }}
+            />
+            <Tab.Screen
+                name="Review"
+                component={Review}
+                options={{
+                    tabBarIcon: ({ focused }) => {
+                        return <Ionicons
+                            name={"chatbubble-outline"}
                             size={24}
                             color={focused ? Colors.primary : Colors.gray2}>
                         </Ionicons>
