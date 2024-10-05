@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, ToastAndroid } from 'react-native';
 import { collection, updateDoc, doc, getDocs, query, where, addDoc, } from 'firebase/firestore';
 import { db, app, firebase } from './../firebase/firebase.config';
@@ -7,6 +7,28 @@ import { Colors } from '../constants';
 
 const AddReview = () => {
     const [ reviewText, setReviewText] = useState('');
+    console.log("Add review page.....")
+
+    useEffect(() => {
+
+        const fetchUserEmail = async () => {
+            const snapshot = await firebase.firestore().collection('users')
+                .doc(firebase.auth().currentUser.uid).get();
+            if (snapshot.exists) {
+                console.log(snapshot.data().email);
+                const email = snapshot.data().email;
+                setEmail(email);
+                // console.log("addreview page email",email)
+                // Fetch ratings after email is retrieved
+                fetchRatings(email);
+            }
+        };
+
+
+        fetchUserEmail();
+        // fetchRatings();
+    }, []);
+    
 
 
 
@@ -22,7 +44,7 @@ const AddReview = () => {
               dislikedEmail : [],
               createdAt: currentDate // Include posting time and date
             };
-            console.log(newReview);
+            console.log("new Review: ",newReview);
             const docRef = await addDoc(collection(db, 'reviews'), newReview);
             // console.log('Document written with ID: ', docRef.id);
             setReviewText(''); 
