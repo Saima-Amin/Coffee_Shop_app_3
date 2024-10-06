@@ -42,7 +42,24 @@ const styles = StyleSheet.create({
         fontWeight: '600',
         fontSize: 10,
         color: Colors.lightwhite
-    }
+    },
+     // Floating ball style
+     floatingBall: {
+        position: 'absolute',
+        bottom: -50,
+        right: 30,
+        width: 60,
+        height: 60,
+        // borderColor: Colors.black ,
+        borderRadius: 30,
+        backgroundColor: '#7F5539',  // Ball color
+        opacity: 0.7,
+        shadowColor: "#000",
+        shadowOffset: { width: 0, height: 5 },
+        shadowOpacity: 0.3,
+        shadowRadius: 5,
+        elevation: 10,  // Semi-transparent
+    },
 })
 
 export default styles;

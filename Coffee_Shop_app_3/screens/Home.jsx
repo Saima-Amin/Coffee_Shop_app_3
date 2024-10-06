@@ -1,5 +1,5 @@
-import { StyleSheet, ScrollView, Text, View } from 'react-native'
-import React, { useEffect, useState } from 'react';
+import { StyleSheet, ScrollView, Text, View, Animated } from 'react-native'
+import React, { useEffect, useState, useRef } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './home.style';
 import { Fontisto, Ionicons } from '@expo/vector-icons';
@@ -9,22 +9,25 @@ import Carousel from '../components/home/Carousel';
 import Heading from '../components/home/Heading';
 import ProductRow from '../components/products/ProductRow';
 import { useNavigation } from '@react-navigation/native';
-import VideoShowing from "./VideoShowing"
 import { Colors } from '../constants';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Home = () => {
-    const [userData, setUserData] = useState(null)
-  const [userLogin, setUserLogin] = useState(false)
+    const [userData, setUserData] = useState(null);
+    const [userLogin, setUserLogin] = useState(false);
+    const navigation = useNavigation();
+
+    // Animation Value
+    const floatAnim = useRef(new Animated.Value(0)).current;
 
     useEffect(() => {
         checkExistingUser();
-      },[]);
-    
-    
-      const checkExistingUser = async () => {
+        startFloatingAnimation(); // Start the floating animation on mount
+    }, []);
+
+    const checkExistingUser = async () => {
         console.log("OKk");
-        console.log("Here "+firebase.auth().currentUser.uid);
+        console.log("Here " + firebase.auth().currentUser.uid);
         firebase.firestore().collection('users')
           .doc(firebase.auth().currentUser.uid).get()
           .then((snapshot) => {
@@ -36,11 +39,27 @@ const Home = () => {
               console.log('User does not exist');
             }
           });
-      }
-    
+    };
 
+    // Floating animation function
+    const startFloatingAnimation = () => {
+        Animated.loop(
+            Animated.sequence([
+                Animated.timing(floatAnim, {
+                    delay:3000,
+                    toValue: -600,
+                    duration: 3000,
+                    useNativeDriver: true,
+                }),
+                Animated.timing(floatAnim, {
+                    toValue: 0,
+                    duration: 3000,
+                    useNativeDriver: true,
+                })
+            ])
+        ).start();
+    };
 
-    const navigation = useNavigation();
     return (
         <GestureHandlerRootView>
             <SafeAreaView>
@@ -63,7 +82,6 @@ const Home = () => {
                     </View>
                 </View>
 
-
                 <ScrollView>
                     <Welcome></Welcome>
                     <Carousel></Carousel>
@@ -75,14 +93,19 @@ const Home = () => {
                         </TouchableOpacity>
                     </View>
 
-
                     <Heading></Heading>
                     <ProductRow></ProductRow>
                 </ScrollView>
+
+                {/* Floating Ball Animation */}
+                <Animated.View style={[
+                    styles.floatingBall,
+                    { transform: [{ translateY: floatAnim }] }  // Link animation to translateY
+                ]}>
+                </Animated.View>
             </SafeAreaView>
         </GestureHandlerRootView>
     )
 }
 
 export default Home;
-
