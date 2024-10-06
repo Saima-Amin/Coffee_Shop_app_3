@@ -129,7 +129,7 @@ const Review = () => {
                 <View style={styles.reviewContainer}>
                     <Rating />
                 </View>
-                <Text style={{ fontFamily: "bold", fontSize: 38, color: '#3A3D42' }}>See What Our Clients Say!</Text>
+                <Text style={{ fontFamily: "bold", fontSize: 35, color: '#3A3D42' }}>Discover What Our Clients Are Saying!</Text>
                 <View style={{ borderBottomWidth: 1, borderBottomColor: '#AB8C56', borderTopWidth: 1, borderTopColor: '#AB8C56' }}>
                     <AddReview />
                 </View>

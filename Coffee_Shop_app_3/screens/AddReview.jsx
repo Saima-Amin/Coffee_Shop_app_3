@@ -57,7 +57,7 @@ const AddReview = () => {
 
     return (
         <View style={{ marginTop: 10 }}>
-            <Text style={{ fontFamily: "regular", fontSize: 15 }}>Feel free to give any suggestions or complaints! We will heartily try to solve it!</Text>
+            <Text style={{ fontFamily: "regular", fontSize: 15 }}>Have suggestions or complaints? We’re all ears and committed to finding a solution!</Text>
             <View style={{ height:100, display:'flex', flexDirection: 'row', justifyContent: 'center', gap:2 , alignItems: 'center', marginBottom: 10, }}>
               <View style={{ flex: 0.8 }}>
                 <TextInput
