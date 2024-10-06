@@ -4,13 +4,12 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import Rating from './Rating';
 import AddReview from './AddReview';
 import { Colors } from '../constants';
-import { doc, getDoc, updateDoc, getFirestore, collection, getDocs } from 'firebase/firestore';
+import { doc, updateDoc, getFirestore, collection, onSnapshot } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 const Review = () => {
     const [email, setEmail] = useState("");
-    const [rating, setRating] = useState([]);
     const [reviews, setReviews] = useState([]);
     const [showComments, setShowComments] = useState({});
     const [commentTexts, setCommentTexts] = useState({});
@@ -29,30 +28,14 @@ const Review = () => {
             console.log("No user is signed in.");
         }
 
-        // Fetch ratings
-        const fetchRatings = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'reviews'));
-                const reviewsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setRating(reviewsData);
-            } catch (error) {
-                console.error('Error getting documents: ', error);
-            }
-        };
+        // Real-time listener for reviews
+        const unsubscribe = onSnapshot(collection(db, 'reviews'), (querySnapshot) => {
+            const reviewsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setReviews(reviewsData);
+        });
 
-        // Fetch reviews
-        const fetchReviews = async () => {
-            try {
-                const querySnapshot = await getDocs(collection(db, 'reviews'));
-                const reviewsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setReviews(reviewsData);
-            } catch (error) {
-                console.error('Error getting documents: ', error);
-            }
-        };
-
-        fetchRatings();
-        fetchReviews();
+        // Clean up the listener when component unmounts
+        return () => unsubscribe();
     }, []);
 
     const toggleComments = (index) => {
@@ -65,67 +48,51 @@ const Review = () => {
     const handleComment = async (reviewId, comments) => {
         try {
             const reviewDocRef = doc(db, "reviews", reviewId);
-            const reviewDocSnapshot = await getDoc(reviewDocRef);
-
-            if (reviewDocSnapshot.exists()) {
-                const existingData = reviewDocSnapshot.data();
-                const updatedData = {
-                    ...existingData,
-                    comments: comments
-                };
-                await updateDoc(reviewDocRef, updatedData);
-                fetchReviews(); // Refresh the reviews list
-                ToastAndroid.show('Your comment was posted', ToastAndroid.SHORT);
-            } else {
-                console.log("Review document not found");
-            }
+            const updatedData = { comments: comments };
+            await updateDoc(reviewDocRef, updatedData);
+            ToastAndroid.show('Your comment was posted', ToastAndroid.SHORT);
         } catch (error) {
             console.error('Error adding comment:', error);
         }
     };
 
     const handlePostComment = (review, newComment, index) => {
-        const updatedReview = {
-            ...review,
-            comments: [
-                ...(review.comments || []),
-                { email: user.email, commentText: newComment }
-            ]
-        };
-
-        handleComment(review.id, updatedReview.comments);
+        // Add the new comment to the review in the local state
+        const updatedComments = [
+            ...(review.comments || []),
+            { email: user.email, commentText: newComment }
+        ];
+    
+        // Update Firestore with the new comments
+        handleComment(review.id, updatedComments);
+    
+        // Clear the input field after posting comment
         setCommentTexts(prevState => ({
             ...prevState,
-            [index]: '', // Clear the input field after posting comment
+            [index]: '', // Clear the input for the specific review
         }));
     };
 
     const handleLike = async (review) => {
         try {
             const reviewDocRef = doc(db, "reviews", review.id);
-            const reviewDocSnapshot = await getDoc(reviewDocRef);
+            let likedEmail = review.likedEmail || [];
+            let dislikedEmail = review.dislikedEmail || [];
 
-            if (reviewDocSnapshot.exists()) {
-                const existingData = reviewDocSnapshot.data();
-                let likedEmail = existingData.likedEmail || [];
-                let dislikedEmail = existingData.dislikedEmail || [];
-
-                if (dislikedEmail.includes(user.email)) {
-                    dislikedEmail = dislikedEmail.filter(email => email !== user.email);
-                }
-
-                if (!likedEmail.includes(user.email)) {
-                    likedEmail = [...likedEmail, user.email];
-                    ToastAndroid.show('You liked this review', ToastAndroid.SHORT);
-                } else {
-                    likedEmail = likedEmail.filter(email => email !== user.email);
-                    ToastAndroid.show('You unliked this review', ToastAndroid.SHORT);
-                }
-
-                const updatedData = { ...existingData, likedEmail, dislikedEmail };
-                await updateDoc(reviewDocRef, updatedData);
-                fetchReviews();
+            if (dislikedEmail.includes(user.email)) {
+                dislikedEmail = dislikedEmail.filter(email => email !== user.email);
             }
+
+            if (!likedEmail.includes(user.email)) {
+                likedEmail = [...likedEmail, user.email];
+                ToastAndroid.show('You liked this review', ToastAndroid.SHORT);
+            } else {
+                likedEmail = likedEmail.filter(email => email !== user.email);
+                ToastAndroid.show('You unliked this review', ToastAndroid.SHORT);
+            }
+
+            const updatedData = { likedEmail, dislikedEmail };
+            await updateDoc(reviewDocRef, updatedData);
         } catch (error) {
             console.error('Error liking review:', error);
         }
@@ -134,36 +101,30 @@ const Review = () => {
     const handleDislike = async (review) => {
         try {
             const reviewDocRef = doc(db, "reviews", review.id);
-            const reviewDocSnapshot = await getDoc(reviewDocRef);
+            let likedEmail = review.likedEmail || [];
+            let dislikedEmail = review.dislikedEmail || [];
 
-            if (reviewDocSnapshot.exists()) {
-                const existingData = reviewDocSnapshot.data();
-                let likedEmail = existingData.likedEmail || [];
-                let dislikedEmail = existingData.dislikedEmail || [];
-
-                if (likedEmail.includes(user.email)) {
-                    likedEmail = likedEmail.filter(email => email !== user.email);
-                }
-
-                if (!dislikedEmail.includes(user.email)) {
-                    dislikedEmail = [...dislikedEmail, user.email];
-                    ToastAndroid.show('You disliked this review', ToastAndroid.SHORT);
-                } else {
-                    dislikedEmail = dislikedEmail.filter(email => email !== user.email);
-                    ToastAndroid.show('You removed dislike reaction', ToastAndroid.SHORT);
-                }
-
-                const updatedData = { ...existingData, likedEmail, dislikedEmail };
-                await updateDoc(reviewDocRef, updatedData);
-                fetchReviews();
+            if (likedEmail.includes(user.email)) {
+                likedEmail = likedEmail.filter(email => email !== user.email);
             }
+
+            if (!dislikedEmail.includes(user.email)) {
+                dislikedEmail = [...dislikedEmail, user.email];
+                ToastAndroid.show('You disliked this review', ToastAndroid.SHORT);
+            } else {
+                dislikedEmail = dislikedEmail.filter(email => email !== user.email);
+                ToastAndroid.show('You removed dislike reaction', ToastAndroid.SHORT);
+            }
+
+            const updatedData = { likedEmail, dislikedEmail };
+            await updateDoc(reviewDocRef, updatedData);
         } catch (error) {
             console.error('Error disliking review:', error);
         }
     };
 
     return (
-        <ScrollView>
+        <ScrollView style={styles.container}>
             <View>
                 <View style={styles.reviewContainer}>
                     <Rating />
@@ -220,6 +181,7 @@ const Review = () => {
                                         <Text style={styles.buttonText}>Post</Text>
                                     </TouchableOpacity>
                                 </View>
+                                {/* <View>Text</View> */}
                             </View>
                         )}
                     </View>
@@ -232,8 +194,11 @@ const Review = () => {
 export default Review;
 
 const styles = StyleSheet.create({
+    container:{
+        marginBottom: 50
+    },
     reviewContainer: {
-        fontFamily: "regular"
+        fontFamily: "regular",
     },
     contentContainer: {
         margin: 10,

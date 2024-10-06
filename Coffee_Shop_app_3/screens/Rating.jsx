@@ -26,7 +26,7 @@ const Rating = ({ navigation }) => {
                 console.log(snapshot.data().email);
                 const email = snapshot.data().email;
                 setEmail(email);
-                // console.log("ratug page email",email)
+                console.log("ratug page email",email)
                 // Fetch ratings after email is retrieved
                 fetchRatings(email);
             }
@@ -37,51 +37,37 @@ const Rating = ({ navigation }) => {
                 const ratingsCollection = collection(db, 'rating');
                 const ratingSnapshot = await getDocs(ratingsCollection);
                 const ratingList = ratingSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setRatings(ratingList);
-                console.log("rating list in rating page", ratingList);
-
-                // Calculate the average rating
-                const totalRating = ratingList.reduce((acc, curr) => acc + curr.rate, 0);
-                const avg = ratingList.length > 0 ? totalRating / ratingList.length : 0;
+        
+                // Check if every document has a rate property and handle missing values gracefully
+                const validRatings = ratingList.filter(rating => rating.hasOwnProperty('rate'));
+                setRatings(validRatings);
+        
+                console.log("Valid rating list in rating page", validRatings);
+        
+                // Calculate the average rating only with valid ratings
+                const totalRating = validRatings.reduce((acc, curr) => acc + curr.rate, 0);
+                const avg = validRatings.length > 0 ? totalRating / validRatings.length : 0;
                 setAverageRating(avg);
-
-                // Pick the exact data for the current user's email
-                const userRating = ratingList.find(rating => rating.email === email);
-                // if (userRating) {
-                setUserRating(userRating.rate);
-                console.log(`User's Rating:`, userRating);
-                // }
+        
+                // Find the current user's rating, if it exists
+                const userRating = validRatings.find(rating => rating.email === email);
+                if (userRating) {
+                    setUserRating(userRating.rate);
+                    console.log(`User's Rating:`, userRating.rate);
+                }
             } catch (error) {
                 console.error("Error fetching ratings: ", error);
             }
         };
-
-
         fetchUserEmail();
-        fetchRatings();
+        // fetchRatings(email);
     }, []);
 
-    // useEffect(() => {
-    //     if (user) {
-    //       const fetchData = async () => {
-    //         try {
-    //           const ratingQuery = query(collection(db, 'rating'), where('email', '==', user.email));
-    //           const querySnapshot = await getDocs(ratingQuery);
-    //           if (querySnapshot.size > 0) {
-    //             setHasRated(true);
-    //             setUserRating(querySnapshot.docs[0].data().rate); // Set user's rating
-    //           }
-    //         } catch (error) {
-    //           console.error('Error checking user rating:', error);
-    //         }
-    //       };
-
-    //       fetchData();
-    //     }
-    //   }, [user]);
-
+ 
+    
     const handleRating = async (rating) => {
-        if (user) {
+        console.log("email before if",email)
+        if (email) {
             if (hasRated) {
                 Alert.alert(
                     'Already Rated',
@@ -95,17 +81,28 @@ const Rating = ({ navigation }) => {
                             text: 'Yes',
                             onPress: async () => {
                                 try {
-                                    // const ratingQuery = query(collection(db, 'rating'), where('email', '==', user.email));
-                                    // const ratingSnapshot = await getDocs(ratingQuery);
-                                    // const ratingDoc = ratingSnapshot.docs[0];
-                                    // await updateDoc(doc(db, 'rating', ratingDoc.id), { rate: rating });
-                                    // Alert.alert('Rating Updated', 'Your rating has been updated successfully.');
-                                    // const updatedRatings = ratings.map(rate => (rate === ratingDoc.data().rate ? rating : rate));
-                                    // setRatings(updatedRatings);
-                                    // const totalRating = updatedRatings.reduce((acc, curr) => acc + curr, 0);
-                                    // const avg = updatedRatings.length > 0 ? totalRating / updatedRatings.length : 0;
-                                    // setAverageRating(avg);
-                                    // setUserRating(rating);
+                                    const ratingQuery = query(collection(db, 'rating'), where('email', '==', email));
+                                    const ratingSnapshot = await getDocs(ratingQuery);
+                                    if (!ratingSnapshot.empty) {
+                                        const ratingDoc = ratingSnapshot.docs[0];
+                                        await updateDoc(doc(db, 'rating', ratingDoc.id), { rate: rating });
+                                        Alert.alert('Rating Updated', 'Your rating has been updated successfully.');
+    
+                                        // Update local state
+                                        const updatedRatings = ratings.map(item =>
+                                            item.email === email ? { ...item, rate: rating } : item
+                                        );
+                                        setRatings(updatedRatings);
+    
+                                        // Recalculate average
+                                        const totalRating = updatedRatings.reduce((acc, curr) => acc + curr.rate, 0);
+                                        const avg = updatedRatings.length > 0 ? totalRating / updatedRatings.length : 0;
+                                        setAverageRating(avg);
+    
+                                        setUserRating(rating);
+                                    } else {
+                                        console.error('Rating document not found.');
+                                    }
                                 } catch (error) {
                                     console.error('Error updating rating:', error);
                                 }
@@ -116,21 +113,29 @@ const Rating = ({ navigation }) => {
                 );
             } else {
                 try {
-                    await addDoc(collection(db, 'rating'), { email: user.email, rate: rating });
+                    await addDoc(collection(db, 'rating'), { email, rate: rating });
                     setHasRated(true);
                     setUserRating(rating);
-                    const updatedRatings = [...ratings, rating];
+    
+                    // Update local state
+                    const updatedRatings = [...ratings, { email, rate: rating }];
                     setRatings(updatedRatings);
-                    const totalRating = updatedRatings.reduce((acc, curr) => acc + curr, 0);
+    
+                    // Recalculate average
+                    const totalRating = updatedRatings.reduce((acc, curr) => acc + curr.rate, 0);
                     const avg = updatedRatings.length > 0 ? totalRating / updatedRatings.length : 0;
                     setAverageRating(avg);
+    
                     Alert.alert('Your Rating Counted', 'Your rating has been counted.', [{ text: 'OK' }], { cancelable: false });
                 } catch (error) {
                     console.error('Error adding rating:', error);
                 }
             }
+        } else {
+            console.error('Email is required to submit a rating.');
         }
     };
+    
 
     const renderStars = () => {
         const filledStars = Math.floor(averageRating);

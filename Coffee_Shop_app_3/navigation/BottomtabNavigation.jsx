@@ -33,7 +33,7 @@ const BottomtabNavigation = () => {
                     tabBarIcon: ({ focused }) => {
                         return <Ionicons name={focused ? "home" : "home-outline"}
                             size={26}
-                            color={focused ? Colors.primary : Colors.gray2}></Ionicons>
+                            color={focused ? "#7F5539" : Colors.gray2}></Ionicons>
                     }
                 }}
             />
@@ -45,7 +45,7 @@ const BottomtabNavigation = () => {
                         return <Ionicons
                             name={"search-sharp"}
                             size={26}
-                            color={focused ? Colors.primary : Colors.gray2}>
+                            color={focused ? "#7F5539" : Colors.gray2}>
                         </Ionicons>
                     }
                 }}
@@ -55,10 +55,10 @@ const BottomtabNavigation = () => {
                 component={Review}
                 options={{
                     tabBarIcon: ({ focused }) => {
-                        return <Ionicons
-                            name={"chatbubble-outline"}
+                        return <Ionicons name={focused ? "chatbubble" : "chatbubble-outline"}
+                            // name={"chatbubble-outline"}
                             size={26}
-                            color={focused ? Colors.primary : Colors.gray2}>
+                            color={focused ? "#7F5539" : Colors.gray2}>
                         </Ionicons>
                     }
                 }}
@@ -70,7 +70,7 @@ const BottomtabNavigation = () => {
                     tabBarIcon: ({ focused }) => {
                         return <Ionicons name={focused ? "person" : "person-outline"}
                             size={26}
-                            color={focused ? Colors.primary : Colors.gray2}></Ionicons>
+                            color={focused ? "#7F5539" : Colors.gray2}></Ionicons>
                     }
                 }}
             />

@@ -7,6 +7,7 @@ import { Colors } from '../constants';
 
 const AddReview = () => {
     const [ reviewText, setReviewText] = useState('');
+    const [ email, setEmail] = useState('');
     console.log("Add review page.....")
 
     useEffect(() => {
@@ -18,7 +19,7 @@ const AddReview = () => {
                 console.log(snapshot.data().email);
                 const email = snapshot.data().email;
                 setEmail(email);
-                // console.log("addreview page email",email)
+                console.log("addreview page email",email)
                 // Fetch ratings after email is retrieved
                 fetchRatings(email);
             }
@@ -38,7 +39,7 @@ const AddReview = () => {
             // const formattedDate = currentDate.toLocaleString(); // Convert to human-readable format
             const newReview = { 
               comments: [],
-              email: user.email,
+              email: email,
               reviewtext: reviewText,
               likedEmail: [],
               dislikedEmail : [],
@@ -50,7 +51,7 @@ const AddReview = () => {
             setReviewText(''); 
             ToastAndroid.show('Your review was posted! Thanks for staying with us!', ToastAndroid.SHORT);
         } catch (e) {
-            console.error('Error adding document: ', e);
+            console.error('Error adding document add review page: ', e);
         }
     };
 
