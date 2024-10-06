@@ -69,9 +69,9 @@ const Home = () => {
                     <Carousel></Carousel>
 
                     <View style={styles.videoContainer}>
-                        <Text style={{fontFamily:"regular", fontSize: 14}}>Process of Making Coffee Beans. </Text>
+                        <Text style={{fontFamily:"regular", fontSize: 20}}>Process of Making Coffee Beans. </Text>
                         <TouchableOpacity onPress={() => navigation.navigate("VideoShowing")}>
-                            <Ionicons name='videocam' size={24} color={Colors.primary}></Ionicons>
+                            <Ionicons name='videocam' size={26} color={Colors.primary}></Ionicons>
                         </TouchableOpacity>
                     </View>
 
