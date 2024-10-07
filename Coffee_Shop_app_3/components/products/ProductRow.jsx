@@ -67,6 +67,7 @@ const ProductRow = () => {
                 <Text>Something went wrong</Text>
             ) : (
                 <FlatList
+                    // key={id}
                     data={data}
                     keyExtractor={(item) => item._id}
                     renderItem={renderAnimatedItem}  // Use animated renderItem
