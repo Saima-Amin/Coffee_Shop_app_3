@@ -30,8 +30,15 @@ const Review = () => {
 
         // Real-time listener for reviews
         const unsubscribe = onSnapshot(collection(db, 'reviews'), (querySnapshot) => {
-            const reviewsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-            setReviews(reviewsData);
+            const revData = [];
+            querySnapshot.forEach((doc) => {
+                const reviewData = doc.data();
+                revData.push({ id: doc.id, ...reviewData });
+            });
+            // const reviewsData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            // Sort reviews based on createdAt timestamp in descending order
+            revData.sort((a, b) => b.createdAt.toDate() - a.createdAt.toDate());
+            setReviews(revData);
         });
 
         // Clean up the listener when component unmounts

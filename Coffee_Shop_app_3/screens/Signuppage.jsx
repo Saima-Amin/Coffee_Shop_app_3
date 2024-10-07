@@ -221,7 +221,7 @@ const Signuppage = ({ navigation }) => {
                                     )}
                                 </View>
 
-                                {/* Date of Birth Picker */}
+                                {/*For Date of Birth Picker */}
                                 <View style={styles.wrapper}>
                                     <Text style={styles.label}>Date of Birth</Text>
                                     <View style={[styles.inputWrapper, {
