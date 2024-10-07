@@ -18,6 +18,21 @@ const styles = StyleSheet.create({
         color: Colors.gray,
         marginTop: Sizes.small
     },
+    showCountryInfoBtn: {
+        backgroundColor: Colors.primary,
+        paddingVertical: 10, // Adjusted padding for top and bottom
+        paddingHorizontal: 20, // Reduced padding for left and right sides to make button smaller
+        borderRadius: 5,
+        alignItems: 'center', // Center the text inside the button
+        marginLeft:50,
+        marginRight:50,
+      },
+      showCountryInfoText: {
+        color: Colors.offwhite,
+        fontSize: 16, // Slightly smaller text for better fitting
+        textAlign: 'center', // Ensure the text is centered
+        fontWeight: 'bold',  // Optional: make the text bold for better readability
+      },
     searchWrapper: {
         flex: 1,
         backgroundColor: Colors.secondary,

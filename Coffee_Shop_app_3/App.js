@@ -1,16 +1,46 @@
-import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
-import { useFonts } from 'expo-font';
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { LogBox } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { StyleSheet, Text, View } from "react-native";
+import { useFonts } from "expo-font";
 import * as SplashScreen from "expo-splash-screen";
-import { useCallback, useState, useEffect } from 'react';
-import BottomtabNavigation from './navigation/BottomtabNavigation';
-import { Cart, NewRivals, ProductDetails, LoginPage, Orders, Favourites, Location, VideoShowing, OpenCamera, Review, Rating, AddReview, CurrencyRates} from './screens';
-import Signuppage from './screens/Signuppage';
-import { firebase } from './firebase/firebase.config';
+import { useCallback, useState, useEffect } from "react";
+import BottomtabNavigation from "./navigation/BottomtabNavigation";
+import {
+  Cart,
+  NewRivals,
+  ProductDetails,
+  LoginPage,
+  Orders,
+  Favourites,
+  Location,
+  VideoShowing,
+  OpenCamera,
+  Review,
+  Rating,
+  AddReview,
+  CurrencyRates,
+} from "./screens";
+import Signuppage from "./screens/Signuppage";
+import { firebase } from "./firebase/firebase.config";
+import {
+  ApolloClient,
+  InMemoryCache,
+  ApolloProvider,
+  gql,
+} from "@apollo/client";
+
+// Ignore specific warnings
+LogBox.ignoreLogs(["Warning: ...", "Some other warning"]);
+// Alternatively, ignore all logs
+LogBox.ignoreAllLogs();
 
 const Stack = createNativeStackNavigator();
+const client = new ApolloClient({
+  uri: "https://countries.trevorblades.com/graphql",
+  cache: new InMemoryCache(),
+});
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -39,7 +69,6 @@ export default function App() {
       // The user variable is empty (it does not have a value)
       console.log("User variable is empty");
     }
-
   }, [user]); // This ensures that the useEffect runs whenever the user state variable changes
 
   useEffect(() => {
@@ -60,87 +89,77 @@ export default function App() {
 
   if (user) {
     return (
-      <NavigationContainer>
-        <Stack.Navigator>
+      <ApolloProvider client={client}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Bottom Navigation"
+              component={BottomtabNavigation}
+              options={{ headerShown: false }}
+            />
 
+            <Stack.Screen
+              name="ProductsList"
+              component={NewRivals}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
 
-          <Stack.Screen
-            name='Bottom Navigation'
-            component={BottomtabNavigation}
-            options={{ headerShown: false }}
-          />
+            <Stack.Screen
+              name="ProductDetails"
+              component={ProductDetails}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
 
-          <Stack.Screen
-            name='ProductsList'
-            component={NewRivals}
-            options={{ headerShown: false }}>
-          </Stack.Screen>
+            <Stack.Screen
+              name="Location"
+              component={Location}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
 
+            <Stack.Screen
+              name="VideoShowing"
+              component={VideoShowing}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
 
-          <Stack.Screen
-          name='ProductDetails'
-          component={ProductDetails}
-          options={{ headerShown: false }}>
-        </Stack.Screen>
+            <Stack.Screen
+              name="OpenCamera"
+              component={OpenCamera}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
 
+            <Stack.Screen
+              name="Favourites"
+              component={Favourites}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
 
-        <Stack.Screen 
-        name='Location'
-        component={Location}
-        options={{headerShown:false}}>
-        </Stack.Screen>
+            <Stack.Screen
+              name="Review"
+              component={Review}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
 
+            <Stack.Screen
+              name="Rating"
+              component={Rating}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
 
-        <Stack.Screen 
-        name='VideoShowing'
-        component={VideoShowing}
-        options={{headerShown:false}}>
-        </Stack.Screen>
+            <Stack.Screen
+              name="AddReview"
+              component={AddReview}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
 
-
-        <Stack.Screen 
-        name='OpenCamera'
-        component={OpenCamera}
-        options={{headerShown:false}}>
-        </Stack.Screen>
-
-
-        <Stack.Screen 
-        name='Favourites'
-        component={Favourites}
-        options={{headerShown:false}}>
-        </Stack.Screen>
-
-        <Stack.Screen 
-        name='Review'
-        component={Review}
-        options={{headerShown:false}}>
-        </Stack.Screen>
-
-
-        <Stack.Screen 
-        name='Rating'
-        component={Rating}
-        options={{headerShown:false}}>
-        </Stack.Screen>
-
-
-        <Stack.Screen 
-        name='AddReview'
-        component={AddReview}
-        options={{headerShown:false}}>
-        </Stack.Screen>
-
-
-        <Stack.Screen 
-        name='CurrencyRates'
-        component={CurrencyRates}
-        options={{headerShown:false}}>
-        </Stack.Screen>
-
-
-        </Stack.Navigator>
-      </NavigationContainer>
+            <Stack.Screen
+              name="CurrencyRates"
+              component={CurrencyRates}
+              options={{ headerShown: false }}
+            ></Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ApolloProvider>
     );
   } else {
     // The user variable is empty (it does not have a value)
@@ -148,12 +167,12 @@ export default function App() {
       <NavigationContainer>
         <Stack.Navigator>
           <Stack.Screen
-            name='Login'
+            name="Login"
             component={LoginPage}
             options={{ headerShown: false }}
           />
           <Stack.Screen
-            name='Signup'
+            name="Signup"
             component={Signuppage}
             options={{ headerShown: false }}
           />
@@ -161,5 +180,4 @@ export default function App() {
       </NavigationContainer>
     );
   }
-
 }

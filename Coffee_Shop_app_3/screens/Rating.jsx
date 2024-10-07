@@ -5,6 +5,7 @@ import { collection, updateDoc, doc, getDocs, query, where, addDoc, } from 'fire
 import { Colors, Sizes } from '../constants';
 import { Ionicons, MaterialIcons } from '@expo/vector-icons';
 import { db, app, firebase } from './../firebase/firebase.config'
+import { useNavigation } from '@react-navigation/native';
 // import { db } from '../firebase'; // Ensure firebase instance is imported correctly
 
 const Rating = ({ navigation }) => {
@@ -14,6 +15,7 @@ const Rating = ({ navigation }) => {
     const [userRating, setUserRating] = useState(null);
     const [email, setEmail] = useState("");
     const [user, setUser] = useState(); // Mock user data for testing
+    const navigation2 = useNavigation();  // Add navigation here
 
 
 
@@ -174,22 +176,26 @@ const Rating = ({ navigation }) => {
             </View>
 
             <View style={styles.container}>
-                <Text style={styles.headerText}>Enjoy the app? Rate us!</Text>
-                <Text style={styles.title}>Average Rating: {averageRating.toFixed(1)} out of 5</Text>
+    <Text style={styles.headerText}>Enjoy the app? Rate us!</Text>
+    <Text style={styles.title}>Average Rating: {averageRating.toFixed(1)} out of 5</Text>
 
+    {!hasRated && (
+        <TouchableOpacity onPress={() => handleRating(0)}>
+            <Text style={styles.rateText}>You haven't rated yet. Do you want to rate?</Text>
+        </TouchableOpacity>
+    )}
+    <View style={styles.starsContainer}>{renderStars()}</View>
 
-                {!hasRated && (
-                    <TouchableOpacity onPress={() => handleRating(0)}>
-                        <Text style={styles.rateText}>You haven't rated yet. Do you want to rate?</Text>
-                    </TouchableOpacity>
-                )}
-                <View style={styles.starsContainer}>{renderStars()}</View>
+    {userRating !== null && <Text style={styles.userRatingText}>Your Rating: {userRating}</Text>}
 
-                {userRating !== null && <Text style={styles.userRatingText}>Your Rating: {userRating}</Text>}
+    <Text style={styles.ratingCount}>Total Ratings: {ratings.length}</Text>
 
-                <Text style={styles.ratingCount}>Total Ratings: {ratings.length}</Text>
+    {/* New Button */}
+    <TouchableOpacity style={styles.reportButton} onPress={() => navigation2.navigate('Rating Summary')}>
+        <Text style={styles.reportButtonText}>View Rating Report</Text>
+    </TouchableOpacity>
+</View>
 
-            </View>
         </SafeAreaView>
     );
 };
@@ -250,4 +256,17 @@ const styles = StyleSheet.create({
         fontSize: 16,
         marginTop: 5,
     },
+    reportButton: {
+        marginTop: 10,
+        backgroundColor: '#AB8C56',
+        padding: 10,
+        borderRadius: 5,
+        alignItems: 'center',
+        width: '60%',
+    },
+    reportButtonText: {
+        color: '#fff',
+        fontSize: 16,
+        fontFamily: 'bold',
+    },    
 });

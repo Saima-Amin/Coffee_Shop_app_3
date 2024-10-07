@@ -33,8 +33,6 @@ const Profile = ({ navigation }) => {
 
 
   const checkExistingUser = async () => {
-    console.log("OKk");
-    console.log("Here " + firebase.auth().currentUser.uid);
     firebase.firestore().collection('users')
       .doc(firebase.auth().currentUser.uid).get()
       .then((snapshot) => {
@@ -133,9 +131,9 @@ const Profile = ({ navigation }) => {
     }
   };
 
-  if (hasGalleryPermission === false) {
-    return <Text>No access to Internal Storage</Text>;
-  }
+  // if (hasGalleryPermission === false) {
+  //   return <Text>No access to Internal Storage</Text>;
+  // }
 
 
 

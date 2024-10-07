@@ -1,12 +1,18 @@
 import { View, Text } from 'react-native'
 import React from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import {Home, Search, Profile, Review} from "../screens"
+import { createStackNavigator } from "@react-navigation/stack";
+import {Home, Search, Profile, Review } from "../screens"
 import { Ionicons } from "@expo/vector-icons"
 import { Colors } from 'react-native/Libraries/NewAppScreen';
+import BarChartDemo from '../screens/BarChartDemo';
+import CountryInfo from '../screens/CountryInfo';
+
 
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();
+
 
 const screenOptions = {
     tabBarShowLabel: false, // Corrected typo
@@ -22,6 +28,37 @@ const screenOptions = {
     }
 }
 
+function ReviewStackNavigator() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Review"
+          component={Review}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="Rating Summary"
+          component={BarChartDemo}
+        />
+      </Stack.Navigator>
+    );
+  }
+
+  function SearchStackNavigator() {
+    return (
+      <Stack.Navigator>
+        <Stack.Screen
+          name="Search"
+          component={Search}
+          options={{ headerShown: false }}
+        />
+        <Stack.Screen
+          name="CountryInfo"
+          component={CountryInfo}
+        />
+      </Stack.Navigator>
+    );
+  }
 
 const BottomtabNavigation = () => {
     return (
@@ -38,8 +75,8 @@ const BottomtabNavigation = () => {
                 }}
             />
             <Tab.Screen
-                name="Search"
-                component={Search}
+                name="SearchStackNavigator"
+                component={SearchStackNavigator}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return <Ionicons
@@ -51,8 +88,8 @@ const BottomtabNavigation = () => {
                 }}
             />
             <Tab.Screen
-                name="Review"
-                component={Review}
+                name="ReviewStackNavigator"
+                component={ReviewStackNavigator}
                 options={{
                     tabBarIcon: ({ focused }) => {
                         return <Ionicons name={focused ? "chatbubble" : "chatbubble-outline"}

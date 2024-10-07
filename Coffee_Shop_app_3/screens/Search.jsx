@@ -1,14 +1,16 @@
-import { TextInput, View, TouchableOpacity, Modal } from 'react-native';
+import { TextInput, View, TouchableOpacity, Modal, Text } from 'react-native';
 import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './search.style';
 import { Feather, Ionicons } from '@expo/vector-icons';
 import { Colors, Sizes } from '../constants';
+import { useNavigation } from '@react-navigation/native';
 
 
 
 const Search = () => {
   const [modalVisible, setModalVisible] = useState(false); // Add state for modal visibility
+  const navigation = useNavigation();
 
   return (
     <SafeAreaView>
@@ -41,6 +43,15 @@ const Search = () => {
           </TouchableOpacity>
         </View>
       </View>
+      <TouchableOpacity
+            style={styles.showCountryInfoBtn}
+            onPress={() => {
+              // Logic to show country info
+              navigation.navigate('CountryInfo');
+            }}
+          >
+            <Text style={styles.showCountryInfoText}>Show Country Info</Text>
+          </TouchableOpacity>
 
       {/* MODAL COMPONENT */}
       <Modal
