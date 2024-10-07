@@ -14,6 +14,7 @@ import OpenCamera from "./OpenCamera";
 import Review from "./Review";
 import Rating from "./Rating";
 import AddReview from "./AddReview";
+import CurrencyRates from "./CurrencyRates";
 
 export {
     Home, 
@@ -31,5 +32,6 @@ export {
     OpenCamera,
     Review,
     Rating,
-    AddReview
+    AddReview,
+    CurrencyRates
 }

@@ -18,7 +18,7 @@ const Home = () => {
     const navigation = useNavigation();
 
     // Animation Value
-    const floatAnim = useRef(new Animated.Value(0)).current;
+    const floatAnim = useRef(new Animated.Value(1)).current;
 
     useEffect(() => {
         checkExistingUser();

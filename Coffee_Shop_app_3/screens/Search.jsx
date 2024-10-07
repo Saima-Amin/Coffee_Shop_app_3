@@ -1,5 +1,5 @@
-import { TextInput, View, TouchableOpacity } from 'react-native';
-import React from 'react';
+import { TextInput, View, TouchableOpacity, Modal } from 'react-native';
+import React, { useState } from 'react';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import styles from './search.style';
 import { Feather, Ionicons } from '@expo/vector-icons';
@@ -8,15 +8,20 @@ import { Colors, Sizes } from '../constants';
 
 
 const Search = () => {
+  const [modalVisible, setModalVisible] = useState(false); // Add state for modal visibility
+
   return (
     <SafeAreaView>
+
+
+      {/* SEARCH COMPONENT */}
       <View style={styles.searchContainer}>
-        <TouchableOpacity>
-          <Ionicons 
-           name='camera-outline'
-           size={Sizes.XLarge}
-           style={styles.searchIcon} 
-           ></Ionicons>
+        <TouchableOpacity onPress={() => setModalVisible(true)}>
+          <Ionicons
+            name='camera-outline'
+            size={Sizes.XLarge}
+            style={styles.searchIcon}
+          ></Ionicons>
 
         </TouchableOpacity>
 
@@ -24,7 +29,7 @@ const Search = () => {
           <TextInput
             style={styles.searchInput}
             value=''
-            onPressIn={() => {}}
+            onPressIn={() => { }}
             placeholder='what are you looking for?'
           ></TextInput>
         </View>
@@ -35,8 +40,18 @@ const Search = () => {
 
           </TouchableOpacity>
         </View>
-
       </View>
+
+      {/* MODAL COMPONENT */}
+      <Modal
+        animationType='fade'
+        transparent={false}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)} // Close modal when back button is pressed
+      >
+
+      </Modal>
+
     </SafeAreaView>
   )
 }
