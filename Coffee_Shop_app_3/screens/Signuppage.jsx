@@ -7,6 +7,7 @@ import { Button } from '../components';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { Ionicons, MaterialCommunityIcons } from '@expo/vector-icons';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import { Colors, Sizes } from '../constants';
 import { firebase } from "../firebase/firebase.config";
 
@@ -28,9 +29,18 @@ const validationSchema = Yup.object().shape({
 
 
 
-const Signuppage = ({navigation}) => {
+const Signuppage = ({ navigation }) => {
     const [loader, setLoader] = useState(false);
     const [obsecureText, setObsecureText] = useState(false);
+    const [date, setDate] = useState(new Date());
+    const [showDatePicker, setShowDatePicker] = useState(false);
+
+
+    const onDateChange = (event, selectedDate) => {
+        const currentDate = selectedDate || date;
+        setShowDatePicker(false);
+        setDate(currentDate);
+    };
 
 
 
@@ -50,57 +60,57 @@ const Signuppage = ({navigation}) => {
         )
     }
 
-    registerUser = async (email, password, location,username) => {
-       /* if (username.trim() !== '') {
-          checkUsernameAvailability();
-        }else setIsUsernameAvailable(false);
-        if(isUsernameAvailable===false) {
-          alert('Enter unique user name');
-          return;
-        }  */
+    registerUser = async (email, password, location, username) => {
+        /* if (username.trim() !== '') {
+           checkUsernameAvailability();
+         }else setIsUsernameAvailable(false);
+         if(isUsernameAvailable===false) {
+           alert('Enter unique user name');
+           return;
+         }  */
         console.log(email);
-      
-        await firebase
-          .auth()
-          .createUserWithEmailAndPassword(email, password)
-          .then(() => {
-            firebase
-              .auth()
-              .currentUser.sendEmailVerification({
-                handleCodeInApp: true,
-                url: "https://coffeeshopapp-39dbf.firebaseapp.com",
-              })
-              .then(() => {
-                alert("Verification email sent");
-              })
-              .catch((error) => {
-                alert(error.message);
-              })
-              .then(() => {
-                console.log("3");
-                firebase
-                  .firestore()
-                  .collection("users")
-                  .doc(firebase.auth().currentUser.uid)
-                  .set({
-                    username: username,
-                    _id: firebase.auth().currentUser.uid,
-                    email: email,
-                    location:location,
-                  });
-                  console.log("4");
-              })
-              .catch((error) => {
-                alert(error.message);
-              });
-          })
-          .catch((error) => {
-            alert(error.message);
-          });
 
-          navigation.goBack();
-      };
-    
+        await firebase
+            .auth()
+            .createUserWithEmailAndPassword(email, password)
+            .then(() => {
+                firebase
+                    .auth()
+                    .currentUser.sendEmailVerification({
+                        handleCodeInApp: true,
+                        url: "https://coffeeshopapp-39dbf.firebaseapp.com",
+                    })
+                    .then(() => {
+                        alert("Verification email sent");
+                    })
+                    .catch((error) => {
+                        alert(error.message);
+                    })
+                    .then(() => {
+                        console.log("3");
+                        firebase
+                            .firestore()
+                            .collection("users")
+                            .doc(firebase.auth().currentUser.uid)
+                            .set({
+                                username: username,
+                                _id: firebase.auth().currentUser.uid,
+                                email: email,
+                                location: location,
+                            });
+                        console.log("4");
+                    })
+                    .catch((error) => {
+                        alert(error.message);
+                    });
+            })
+            .catch((error) => {
+                alert(error.message);
+            });
+
+        navigation.goBack();
+    };
+
 
     return (
         <ScrollView>
@@ -110,20 +120,20 @@ const Signuppage = ({navigation}) => {
                     <Image
                         source={require('../assets/images/loginbg2.jpg')}
                         style={{
-                            height: Sizes.height/3,
+                            height: Sizes.height / 3,
                             width: '100%',
-                            resizeMode:"cover",
-                            marginBottom: Sizes.xxLarge-15
-                         }}
+                            resizeMode: "cover",
+                            marginBottom: Sizes.xxLarge - 15
+                        }}
                     />
 
                     <Text style={styles.title}>Coffee Beans</Text>
 
 
                     <Formik
-                        initialValues={{ email: "", password: "", location: "", username:"" }}
-                      //  validationSchema={validationSchema}
-                        onSubmit={(values) => registerUser(values.email,values.password,values.location,values.username)}
+                        initialValues={{ email: "", password: "", location: "", username: "" }}
+                        //  validationSchema={validationSchema}
+                        onSubmit={(values) => registerUser(values.email, values.password, values.location, values.username)}
 
                     >
                         {({ handleChange, handleBlur, touched, handleSubmit, values, errors, isValid, setFieldTouched }) => (
@@ -211,6 +221,40 @@ const Signuppage = ({navigation}) => {
                                     )}
                                 </View>
 
+                                {/* Date of Birth Picker */}
+                                <View style={styles.wrapper}>
+                                    <Text style={styles.label}>Date of Birth</Text>
+                                    <View style={[styles.inputWrapper, {
+                                        backgroundColor: Colors.lightwhite,
+                                        height: 50,
+                                        borderRadius: 12,
+                                        flexDirection: "row",
+                                        paddingHorizontal: 15,
+                                        alignItems: "center"
+                                    }]}>
+                                        <TouchableOpacity onPress={() => setShowDatePicker(true)} style={[styles.datePicker, {flexDirection:'row',gap: 8}]}>
+                                            <Ionicons
+                                                name='calendar-outline'
+                                                size={20}
+                                                color={Colors.gray}
+                                                style={styles.iconStyle}
+                                            />
+                                            <Text style={[styles.dateText, {color: Colors.gray}]}>
+                                                {date.toDateString()}
+                                            </Text>
+                                        </TouchableOpacity>
+
+                                        {showDatePicker && (
+                                            <DateTimePicker
+                                                value={date}
+                                                mode="date"
+                                                display="default"
+                                                onChange={onDateChange}
+                                            />
+                                        )}
+                                    </View>
+                                </View>
+
 
                                 {/* FOR PASSWORD INPUT FIELD */}
                                 <View style={styles.wrapper}>
@@ -237,7 +281,7 @@ const Signuppage = ({navigation}) => {
 
                                         <TouchableOpacity onPress={() => { setObsecureText(!obsecureText) }}>
                                             <MaterialCommunityIcons
-                                                name={obsecureText ? "eye-outline" : "eye-off-outline"}
+                                                name={obsecureText ? "eye-off-outline" : "eye-outline"}
                                                 size={18}
                                             />
                                         </TouchableOpacity>

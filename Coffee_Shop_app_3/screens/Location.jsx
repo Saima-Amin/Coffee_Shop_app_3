@@ -60,7 +60,7 @@ const LocationScreen = ({ navigation }) => {
 
   return (
     <View style={styles.container}>
-      <BackBtn style={{ top: 0 }} onPress={() => navigation.goBack()} />
+      <BackBtn style={{ top: 50 }} onPress={() => navigation.goBack()} />
       {location ? (
         <MapView
           showsMyLocationButton={true}
@@ -107,13 +107,14 @@ const styles = StyleSheet.create({
   },
   weatherContainer: {
     position: 'absolute',
-    bottom: 30,
+    bottom: 20,
     right: 10,
     backgroundColor: Colors.secondary,
     padding: 10,
     borderRadius: 5,
-  },
-  weatherText: {
+},
+weatherText: {
+    fontFamily: "regular",
     color: Colors.black,
     fontSize: 12,
   },
